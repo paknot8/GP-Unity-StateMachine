@@ -45,5 +45,7 @@ public class Movement : MonoBehaviour
 
         Vector3 movement = new Vector3(x, 0, z);
         transform.Translate(movement * moveSpeed * Time.deltaTime);
+
+        movement = Vector3.ClampMagnitude(movement, 1);
     }
 }
