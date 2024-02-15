@@ -6,12 +6,15 @@ using UnityEngine.UIElements;
 
 public class Movement : MonoBehaviour
 {
-    float moveSpeed = 5;
+    [SerializeField] private Rigidbody rb;
+    public float baseSpeed;
+    public float sprint;
+    private float currentSpeed;
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("This is a test");
+        rb = GetComponent<Rigidbody> ();
     }
 
     // Update is called once per frame
@@ -39,13 +42,20 @@ public class Movement : MonoBehaviour
         //     transform.position += Vector3.up * moveSpeed * Time.deltaTime;
         // }
 
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            currentSpeed = baseSpeed + sprint;
+        }
+        else
+        {
+            currentSpeed = baseSpeed;
+        }
         // Zorgt voor een smooth movement voor de X and Z
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
         Vector3 movement = new Vector3(x, 0, z);
-        transform.Translate(movement * moveSpeed * Time.deltaTime);
+        transform.Translate(movement * baseSpeed * Time.deltaTime);
 
-        movement = Vector3.ClampMagnitude(movement, 1);
     }
 }
