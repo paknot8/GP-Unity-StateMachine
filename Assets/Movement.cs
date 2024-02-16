@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class Movement : MonoBehaviour
 {
-    [SerializeField] private Rigidbody rb;
+    [SerializeField] private Rigidbody RigidBody;
     public float baseSpeed;
     public float sprint;
     private float currentSpeed;
@@ -14,7 +14,7 @@ public class Movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody> ();
+        RigidBody = GetComponent<Rigidbody> ();
     }
 
     // Update is called once per frame
@@ -45,6 +45,7 @@ public class Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift))
         {
             currentSpeed = baseSpeed + sprint;
+            Debug.log("Left shift is Pressed");
         }
         else
         {
@@ -54,6 +55,7 @@ public class Movement : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
+        // Bewegen van het object naar voren en achter en zuikant.
         Vector3 movement = new Vector3(x, 0, z);
         transform.Translate(movement * baseSpeed * Time.deltaTime);
 
