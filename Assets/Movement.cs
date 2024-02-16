@@ -45,7 +45,8 @@ public class Movement : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift))
         {
             currentSpeed = baseSpeed + sprint;
-            Debug.log("Left shift is Pressed");
+           // Debug.log("Left shift is Pressed");
+            
         }
         else
         {

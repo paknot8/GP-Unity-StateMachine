@@ -51,5 +51,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "SchoolLesson.sln"
+    "dotnet.defaultSolution": "SchoolLessonUnity.sln",
+    "dotnet.preferCSharpExtension": true
 }
