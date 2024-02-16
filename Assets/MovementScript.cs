@@ -7,10 +7,9 @@ using UnityEngine.UIElements;
 public class MovementScript : MonoBehaviour
 {
     [SerializeField] private Rigidbody RigidBody;
-    public float baseSpeed;
-    public float sprint;
-    private float currentSpeed;
-    private bool isMoving = false;
+    public float baseSpeed = 10;
+    public float movementMultiplier = 2;
+    private bool isSprinting = false;
 
     // Start is called before the first frame update
     void Start()
@@ -43,27 +42,32 @@ public class MovementScript : MonoBehaviour
         //     transform.position += Vector3.up * moveSpeed * Time.deltaTime;
         // }
         Movement();
-        if (Input.GetKey(KeyCode.LeftShift) && isMoving)
-        {
-            currentSpeed = baseSpeed + sprint;
-            Debug.Log("Left shift is Pressed");
-        }
-        else if(isMoving)
-        {
-            currentSpeed = baseSpeed;
-        }
+        
         
     }
 
     void Movement()
     {
-        // Zorgt voor een smooth movement voor de X and Z
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-        isMoving = true;
-        // Bewegen van het object naar voren en achter en zuikant.
-        Vector3 movement = new Vector3(x, 0, z);
-        transform.Translate(movement * baseSpeed * Time.deltaTime);
+        // Zorgt voor een smooth movement voor de X and Z, and unity weet dat GetAxis de input is van WASD
+            float x = Input.GetAxis("Horizontal");
+            float z = Input.GetAxis("Vertical");
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            isSprinting = true;
+        }
+        else
+        {
+            isSprinting = false;
+        }
+            // Bewegen van het object naar voren en achter en zuikant.
+            Vector3 movement = new Vector3(x, 0, z);
 
+            //movement = x * transform.right + z * transform.forward;
+
+            if(isSprinting == true){
+                movement *= movementMultiplier;
+            }
+
+            transform.Translate(movement * baseSpeed * Time.deltaTime);
     }
 }
