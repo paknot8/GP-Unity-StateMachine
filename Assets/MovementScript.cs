@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Movement : MonoBehaviour
+public class MovementScript : MonoBehaviour
 {
     [SerializeField] private Rigidbody RigidBody;
     public float baseSpeed;
     public float sprint;
     private float currentSpeed;
+    private bool isMoving = false;
 
     // Start is called before the first frame update
     void Start()
@@ -41,21 +42,25 @@ public class Movement : MonoBehaviour
         // {
         //     transform.position += Vector3.up * moveSpeed * Time.deltaTime;
         // }
-
-        if (Input.GetKey(KeyCode.LeftShift))
+        Movement();
+        if (Input.GetKey(KeyCode.LeftShift) && isMoving)
         {
             currentSpeed = baseSpeed + sprint;
-           // Debug.log("Left shift is Pressed");
-            
+            Debug.Log("Left shift is Pressed");
         }
-        else
+        else if(isMoving)
         {
             currentSpeed = baseSpeed;
         }
+        
+    }
+
+    void Movement()
+    {
         // Zorgt voor een smooth movement voor de X and Z
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
-
+        isMoving = true;
         // Bewegen van het object naar voren en achter en zuikant.
         Vector3 movement = new Vector3(x, 0, z);
         transform.Translate(movement * baseSpeed * Time.deltaTime);
