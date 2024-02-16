@@ -10,7 +10,6 @@ public class MovementScript : MonoBehaviour
     public float baseSpeed = 3;
     public float speedMultiplier = 2;
     public float jumpForce = 7;
-    private bool jump = false;
     private bool isGrounded;
 
     // Bewegen van het object naar voren en achter en zuikant.
@@ -43,12 +42,12 @@ public class MovementScript : MonoBehaviour
         {
             movement *= baseSpeed;
         }
+        
         if(Input.GetKey(KeyCode.Space))
         {
-
-            isGrounded = RigidBody.velocity.y == 0; // check if it hits the ground
-            if(isGrounded == true){
-                jump = true;
+            isGrounded = RigidBody.velocity.y == 0; // check if it hits the ground (Check if rigidbody is in contact with other collider)
+            if(isGrounded == true)
+            {
                 RigidBody.velocity = new Vector3 (RigidBody.velocity.x, jumpForce, RigidBody.velocity.y * Time.deltaTime);
             }
         }
