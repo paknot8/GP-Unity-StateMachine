@@ -5,7 +5,7 @@ public class MovementScript : MonoBehaviour
     Rigidbody RigidBodyPlayer;
     public float baseSpeed = 3;
     public float speedMultiplier = 2;
-    public float jumpForce = 5;
+    public float jumpForce = 6;
     public float gravity = -10;
     private bool isOnGround;
 
