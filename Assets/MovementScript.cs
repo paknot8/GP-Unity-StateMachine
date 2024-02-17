@@ -1,15 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class MovementScript : MonoBehaviour
 {
     Rigidbody RigidBodyPlayer;
     public float baseSpeed = 3;
     public float speedMultiplier = 2;
-    public float jumpForce = 7;
+    public float jumpForce = 5;
     public float gravity = -10;
     private bool isOnGround;
 
@@ -31,9 +27,9 @@ public class MovementScript : MonoBehaviour
     void PlayerMovements()
     {
         // Smooth movement of WASD and arrow keys
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-        movement = new Vector3(x, 0, z);
+        float horizontalX = Input.GetAxis("Horizontal");
+        float verticalZ = Input.GetAxis("Vertical");
+        movement = new Vector3(horizontalX, 0, verticalZ);
 
         if(Input.GetKey(KeyCode.LeftShift))
         {
@@ -43,17 +39,19 @@ public class MovementScript : MonoBehaviour
         {
             movement *= baseSpeed;
         }
-        if(Input.GetKey(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) && isOnGround)
         {
-            if(RigidBodyPlayer.velocity.y == 0) // check if it hits the ground (Check if rigidbody is in contact with other collider) (IF TRUE)
-            {
-                //RigidBody.velocity = new Vector3 (RigidBody.velocity.x, jumpForce, RigidBody.velocity.y * Time.deltaTime);
-                RigidBodyPlayer.velocity = new Vector3 (RigidBodyPlayer.velocity.x, jumpForce, RigidBodyPlayer.velocity.y * Time.deltaTime);
-                Physics.gravity = new Vector3(0,gravity,0);
-            }
+            RigidBodyPlayer.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            Physics.gravity = new Vector3(0,gravity,0);
         }
         transform.Translate(movement * baseSpeed * Time.deltaTime); 
-        //RigidBody.velocity = new Vector3(x,0,y);
-    } 
-    
+    }
+
+    void OnCollisionEnter(Collision collision){
+        isOnGround = true;
+    }
+
+    void OnCollisionExit(Collision collision){
+        isOnGround = false;
+    }
 }
