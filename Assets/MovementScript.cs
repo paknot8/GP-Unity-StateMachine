@@ -1,22 +1,25 @@
+using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MovementScript : MonoBehaviour
 {
-    Rigidbody RigidBodyPlayer;
-    public float baseSpeed = 5;
-    public float speedMultiplier = 8;
-    public float jumpForce = 6;
-    public float gravity = -10;
-    public float rotationSpeed = 720;
-    private bool isOnGround;
+    // --- Basic Movement Variables -- //
+    public float baseSpeed = 3;
+    public float baseSpeedMultiplier = 3;
+    public float rotationSpeed = 500;
 
-    // Bewegen van het object naar voren en achter en zuikant.
-    private Vector3 movementDirection;
+    // --- For Jumping --- //
+    public float jumpSpeed = 8;
+    private float ySpeed;
+
+    // References
+    private CharacterController characterController;
 
     // Start is called before the first frame update
     void Start()
     {
-        RigidBodyPlayer = GetComponent<Rigidbody>();
+        characterController = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -31,11 +34,14 @@ public class MovementScript : MonoBehaviour
          // get player input for horizontal Axis and vertical
         float horizontalX = Input.GetAxis("Horizontal");
         float verticalZ = Input.GetAxis("Vertical");
-        movementDirection = new Vector3(horizontalX, 0, verticalZ); // input value for character move
-        movementDirection.Normalize(); // ensure magnitude of 1
-        
+        Vector3 movementDirection = new Vector3(horizontalX, 0, verticalZ); // input value for character move
 
-        // check if character is moving
+        // ensure magnitude of 1 not larger than 1 (Takes care that diagnoally will not go faster)
+        float magnitude = Mathf.Clamp01(movementDirection.magnitude) * baseSpeed; // Limit de magnitude is never above 1
+        movementDirection.Normalize(); 
+        
+        
+        // check if character is moving and direction
         if(movementDirection != Vector3.zero)
         {
             // Type specific for storing rotations (use Vector3 up because of te Y axis)
@@ -43,27 +49,33 @@ public class MovementScript : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime); // do the movement
         }
 
+        // For jumping
+        ySpeed += Physics.gravity.y * Time.deltaTime;
+        if(characterController.isGrounded)
+        {
+            ySpeed = 0f;
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                ySpeed = jumpSpeed;
+            }
+        }
+        Vector3 velocity = movementDirection * magnitude;
+        velocity.y = ySpeed;
+        characterController.Move(velocity * Time.deltaTime); // Do movement for Y so up.
+
+
+
         if(Input.GetKey(KeyCode.LeftShift))
         {
-            transform.Translate(movementDirection * (baseSpeed + speedMultiplier) * Time.deltaTime, Space.World);
+            //transform.Translate(movementDirection * magnitude * (baseSpeed + baseSpeedMultiplier) * Time.deltaTime, Space.World);
+            characterController.SimpleMove(movementDirection * magnitude * baseSpeedMultiplier);
         } 
         else
         {
-            transform.Translate(movementDirection * baseSpeed * Time.deltaTime, Space.World); // Move to direction we want (real world time)
+            // no need to Time.deltaTime, because it's built in. and does not clip against te obstacle
+            characterController.SimpleMove(movementDirection * magnitude); 
+
+            //transform.Translate(movementDirection * magnitude * baseSpeed * Time.deltaTime, Space.World); // Move to direction we want (real world time)
         }
-        
-        // if(Input.GetKeyDown(KeyCode.Space) && isOnGround)
-        // {
-        //     RigidBodyPlayer.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-        //     Physics.gravity = new Vector3(0,gravity,0);
-        // }
-    }
-
-    void OnCollisionEnter(Collision collision){
-        isOnGround = true;
-    }
-
-    void OnCollisionExit(Collision collision){
-        isOnGround = false;
     }
 }
