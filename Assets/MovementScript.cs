@@ -11,10 +11,10 @@ public class MovementScript : MonoBehaviour
 
     // --- For Jumping --- //
     public float jumpSpeed = 8;
-    private float ySpeed;
+    public float ySpeed;
 
     // --- Audio Source --- //
-    [SerializeField] AudioSource jumpSoundEffect;
+    [SerializeField] AudioSource jumpSoundEffect; // serializefield is so you can drag a file in the inspector slot
 
     // References
     private CharacterController characterController;
@@ -56,7 +56,7 @@ public class MovementScript : MonoBehaviour
         ySpeed += Physics.gravity.y * Time.deltaTime;
         if(characterController.isGrounded)
         {
-            ySpeed = 0f;
+            ySpeed = 0f; // reset height to 0
             if(Input.GetKeyDown(KeyCode.Space))
             {
                 jumpSoundEffect.Play();
@@ -71,15 +71,12 @@ public class MovementScript : MonoBehaviour
 
         if(Input.GetKey(KeyCode.LeftShift))
         {
-            //transform.Translate(movementDirection * magnitude * (baseSpeed + baseSpeedMultiplier) * Time.deltaTime, Space.World);
             characterController.SimpleMove(movementDirection * magnitude * baseSpeedMultiplier);
         } 
         else
         {
             // no need to Time.deltaTime, because it's built in. and does not clip against te obstacle
             characterController.SimpleMove(movementDirection * magnitude); 
-
-            //transform.Translate(movementDirection * magnitude * baseSpeed * Time.deltaTime, Space.World); // Move to direction we want (real world time)
         }
     }
 }
