@@ -7,11 +7,14 @@ public class MovementScript : MonoBehaviour
     // --- Basic Movement Variables -- //
     public float baseSpeed = 3;
     public float baseSpeedMultiplier = 3;
-    public float rotationSpeed = 500;
+    public float rotationSpeed = 720;
 
     // --- For Jumping --- //
     public float jumpSpeed = 8;
     private float ySpeed;
+
+    // --- Audio Source --- //
+    [SerializeField] AudioSource jumpSoundEffect;
 
     // References
     private CharacterController characterController;
@@ -56,6 +59,7 @@ public class MovementScript : MonoBehaviour
             ySpeed = 0f;
             if(Input.GetKeyDown(KeyCode.Space))
             {
+                jumpSoundEffect.Play();
                 ySpeed = jumpSpeed;
             }
         }
