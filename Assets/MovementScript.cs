@@ -78,5 +78,12 @@ public class MovementScript : MonoBehaviour
             // no need to Time.deltaTime, because it's built in. and does not clip against te obstacle
             characterController.SimpleMove(movementDirection * magnitude); 
         }
+
+        // TODO - Change color for Sprint, idle, Jumping
+        // TODO - Make Level
+        // TODO - Pick up coins
+        // TODO - Score Board
+        // TODO EXTRA - Enemy AI
+        
     }
 }
