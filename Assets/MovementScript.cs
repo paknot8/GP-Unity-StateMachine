@@ -14,7 +14,7 @@ public class MovementScript : MonoBehaviour
     public float ySpeed;
 
     // --- Audio Source --- //
-    [SerializeField] AudioSource jumpSoundEffect; // serializefield is so you can drag a file in the inspector slot
+    public AudioSource jumpSoundEffect; // serializefield is so you can drag a file in the inspector slot
 
     // References
     private CharacterController characterController;
@@ -38,6 +38,7 @@ public class MovementScript : MonoBehaviour
         float horizontalX = Input.GetAxis("Horizontal");
         float verticalZ = Input.GetAxis("Vertical");
         Vector3 movementDirection = new Vector3(horizontalX, 0, verticalZ); // input value for character move
+
 
         // ensure magnitude of 1 not larger than 1 (Takes care that diagnoally will not go faster)
         float magnitude = Mathf.Clamp01(movementDirection.magnitude) * baseSpeed; // Limit de magnitude is never above 1
