@@ -2670,6 +2670,7 @@ MonoBehaviour:
   baseSpeedMultiplier: 3
   rotationSpeed: 720
   jumpSpeed: 8
+  ySpeed: 0
   jumpSoundEffect: {fileID: 1570387329}
 --- !u!136 &1570387323
 CapsuleCollider:
@@ -3129,7 +3130,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
+  m_SelectedEditorRenderState: 2
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
