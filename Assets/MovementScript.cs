@@ -25,23 +25,23 @@ public class MovementScript : MonoBehaviour
     public AudioSource jumpSoundEffect; // serializefield is so you can drag a file in the inspector slot
 
     // References
-    private CharacterController characterController;
     private Rigidbody rigidBody;
     private Vector3 vector;
 
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
         rigidBody = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        Vector3 movement = new Vector3(vector.x, 0f, vector.y);
+        Vector3 movement = new(vector.x, 0f, vector.y);
+        transform.Translate(baseSpeed * Time.deltaTime * movement);;
+
         if(isSprinting){
-                transform.Translate(movement * baseSpeed * baseSpeedMultiplier * Time.deltaTime);
+            transform.Translate(baseSpeed * baseSpeedMultiplier * Time.deltaTime * movement);
         } else {
-            transform.Translate(movement * baseSpeed * Time.deltaTime);
+            transform.Translate(baseSpeed * Time.deltaTime * movement);
         }
     }
 
@@ -82,38 +82,14 @@ public class MovementScript : MonoBehaviour
 
     void PlayerMovements()
     {
-        Vector3 movement = new Vector3(vector.x, 0f, vector.y);
-        transform.Translate(movement * baseSpeed * Time.deltaTime);
+        Vector3 movement = new(vector.x, 0f, vector.y);
+        transform.Translate(baseSpeed * Time.deltaTime * movement);
         Vector3 movementDirection = new(vector.x, 0, vector.z);
 
         if (movementDirection != Vector3.zero)
         {
             Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
-        }
-
-        ySpeed += Physics.gravity.y * Time.deltaTime;
-        if (characterController.isGrounded)
-        {
-            ySpeed = 0f;
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                jumpSoundEffect.Play();
-                ySpeed = jumpPower;
-            }
-        }
-
-        Vector3 velocity = movementDirection;
-        velocity.y = ySpeed;
-        characterController.Move(velocity * Time.deltaTime);
-
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            characterController.SimpleMove(movementDirection * baseSpeedMultiplier);
-        }
-        else
-        {
-            characterController.SimpleMove(movementDirection);
         }
     }
 }
