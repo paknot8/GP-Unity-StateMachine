@@ -36,7 +36,7 @@ public class MovementScript : MonoBehaviour
     void Update()
     {
         Vector3 movement = new(vector.x, 0f, vector.y);
-        transform.Translate(baseSpeed * Time.deltaTime * movement);;
+        transform.Translate(baseSpeed * Time.deltaTime * movement);
 
         if(isSprinting){
             transform.Translate(baseSpeed * baseSpeedMultiplier * Time.deltaTime * movement);
