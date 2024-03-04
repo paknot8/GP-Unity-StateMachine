@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.XR;
 
 // TODO - Change color for Sprint, idle, Jumping
 // TODO - Make Level
@@ -12,9 +14,11 @@ public class MovementScript : MonoBehaviour
     public float baseSpeed = 3;
     public float baseSpeedMultiplier = 3;
     public float rotationSpeed = 720;
+    
+    private bool isSprinting;
 
     // --- For Jumping --- //
-    public float jumpSpeed = 8;
+    public float jumpPower = 8;
     public float ySpeed;
 
     // --- Audio Source --- //
@@ -22,36 +26,65 @@ public class MovementScript : MonoBehaviour
 
     // References
     private CharacterController characterController;
-
-    // Enum for player states
-    public enum PlayerState
-    {
-        Idle,Moving,Running,Jumping
-    }
-
-    private PlayerState currentState;
+    private Rigidbody rigidBody;
+    private Vector3 vector;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        // Initialize state machine
-        currentState = PlayerState.Idle;
+        rigidBody = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        PlayerMovements();
-        UpdateState(); // Add this to update the state machine
+        Vector3 movement = new Vector3(vector.x, 0f, vector.y);
+        if(isSprinting){
+                transform.Translate(movement * baseSpeed * baseSpeedMultiplier * Time.deltaTime);
+        } else {
+            transform.Translate(movement * baseSpeed * Time.deltaTime);
+        }
+    }
+
+    void OnMove(InputValue value)
+    {
+        vector = value.Get<Vector2>();
+        Debug.Log("Moving...");
+    }
+
+    void OnJump(InputValue value)
+    {
+        if(IsGrounded()){
+            Debug.Log("Jumping...");
+            rigidBody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            jumpSoundEffect.Play();
+        } else {
+            Debug.Log("Can't Jump you are in the Air!");
+        }
+    }
+
+    void OnRun(InputValue value){
+        if(IsGrounded()){
+            Debug.Log("Running...");
+            if(value.isPressed){
+                isSprinting = true;
+            } else {
+                isSprinting = false;
+            }
+        } else {
+            Debug.Log("You are not on the ground!");
+        }
+    }
+
+    private bool IsGrounded()
+    {
+        return rigidBody.velocity.y == 0;
     }
 
     void PlayerMovements()
     {
-        float horizontalX = Input.GetAxis("Horizontal");
-        float verticalZ = Input.GetAxis("Vertical");
-        Vector3 movementDirection = new Vector3(horizontalX, 0, verticalZ);
-
-        float magnitude = Mathf.Clamp01(movementDirection.magnitude) * baseSpeed;
-        movementDirection.Normalize();
+        Vector3 movement = new Vector3(vector.x, 0f, vector.y);
+        transform.Translate(movement * baseSpeed * Time.deltaTime);
+        Vector3 movementDirection = new(vector.x, 0, vector.z);
 
         if (movementDirection != Vector3.zero)
         {
@@ -66,75 +99,21 @@ public class MovementScript : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 jumpSoundEffect.Play();
-                ySpeed = jumpSpeed;
-                SetState(PlayerState.Jumping); // Transition to Jumping state
+                ySpeed = jumpPower;
             }
         }
 
-        Vector3 velocity = movementDirection * magnitude;
+        Vector3 velocity = movementDirection;
         velocity.y = ySpeed;
         characterController.Move(velocity * Time.deltaTime);
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            SetState(PlayerState.Running); // Transition to Running state
-            characterController.SimpleMove(movementDirection * magnitude * baseSpeedMultiplier);
+            characterController.SimpleMove(movementDirection * baseSpeedMultiplier);
         }
         else
         {
-            if (currentState != PlayerState.Jumping) // Avoid changing state while jumping
-                SetState(PlayerState.Moving); // Transition to Moving state
-
-            characterController.SimpleMove(movementDirection * magnitude);
-        }
-    }
-
-    // Function to update the state machine
-    void UpdateState()
-    {
-        switch (currentState)
-        {
-            case PlayerState.Idle:
-                // Add color or visual changes for Idle state
-                break;
-
-            case PlayerState.Moving:
-                // Add color or visual changes for Moving state
-                break;
-
-            case PlayerState.Running:
-                // Add color or visual changes for Running state
-                break;
-
-            case PlayerState.Jumping:
-                // Add color or visual changes for Jumping state
-                break;
-        }
-    }
-
-    // Function to set the current state and perform state-specific actions
-    void SetState(PlayerState newState)
-    {
-        currentState = newState;
-
-        // Perform state-specific actions
-        switch (currentState)
-        {
-            case PlayerState.Idle:
-                // Additional actions for Idle state, if needed
-                break;
-
-            case PlayerState.Moving:
-                // Additional actions for Moving state, if needed
-                break;
-
-            case PlayerState.Running:
-                // Additional actions for Running state, if needed
-                break;
-
-            case PlayerState.Jumping:
-                // Additional actions for Jumping state, if needed
-                break;
+            characterController.SimpleMove(movementDirection);
         }
     }
 }
