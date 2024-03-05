@@ -3,41 +3,45 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public float healthPoints = 2;
-    bool hit;
+    public int hit;
 
-    void Start(){
-
-    }
-
-    void Update(){
-        
-    }
-
-    private void OnCollisionEnter(Collision collision)
+    // On hit, change color.
+    void OnTriggerEnter(Collider other)
     {
-        if(GameObject.Find("Player/Weapon")){
-            hit = true;
-            if(healthPoints > 0)
+        if(other.gameObject.CompareTag("Weapon"))
+        {
+            switch (healthPoints)
             {
-                healthPoints =- 1;
-                collision.gameObject.GetComponent<MeshRenderer>().material.color = Color.magenta;
-            }   
-            else if (healthPoints == 0)
-            {
-                healthPoints = 0;
-                collision.gameObject.GetComponent<MeshRenderer>().material.color = Color.blue;
-                Destroy(gameObject);
+                case 2:
+                    healthPoints -= 1;
+                    this.gameObject.GetComponent<MeshRenderer>().material.color = new Color32(170, 0, 0, 200);
+                    transform.localScale *= 0.7f; // Make object smaller
+                    print("Hit " + healthPoints);
+                    break;
+                case 1:
+                    healthPoints -= 1;
+                    this.gameObject.GetComponent<MeshRenderer>().material.color = new Color32(70, 0, 0, 200);
+                    transform.localScale *= 0.5f;
+                    print("Hit " + healthPoints);
+                    break;
+                case 0:
+                    healthPoints = 2;
+                    this.gameObject.GetComponent<MeshRenderer>().material.color = new Color32(10, 0, 0, 200);
+                    transform.localScale *= 0.3f;
+                    print("Hit " + healthPoints);
+                    break;
             }
         }
     }
 
-    private void OnCollisionExit(Collision collision)
+    void OnTriggerStay(Collider other)
     {
-        if (GameObject.Find("Player/Weapon"))
-        {
-            GetComponent<MeshRenderer>().material.color = Color.blue;
-            hit = false;
-        }
+        // TODO
+    }
 
+
+    void OnTriggerExit(Collider other)
+    {
+        // TODO
     }
 }

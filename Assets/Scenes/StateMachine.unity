@@ -2947,8 +2947,9 @@ GameObject:
   - component: {fileID: 1303306082}
   - component: {fileID: 1303306081}
   - component: {fileID: 1303306080}
-  - component: {fileID: 1303306085}
+  - component: {fileID: 1303306087}
   - component: {fileID: 1303306086}
+  - component: {fileID: 1303306085}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -2971,7 +2972,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -3036,7 +3037,7 @@ Transform:
   m_GameObject: {fileID: 1303306079}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.92, y: 4.96, z: -28.14}
+  m_LocalPosition: {x: 3.18, y: 4.53, z: -28.39}
   m_LocalScale: {x: 2.4474647, y: 2.4998417, z: 2.9447703}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3055,6 +3056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthPoints: 2
+  hit: 0
 --- !u!54 &1303306086
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3082,6 +3084,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &1303306087
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303306079}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1352256147
 GameObject:
   m_ObjectHideFlags: 0
