@@ -7,20 +7,18 @@ public partial class PlayerStateManager
         InputVector = value.Get<Vector2>();
         MoveVector.x = InputVector.x;
         MoveVector.z = InputVector.y;
-
-        Debug.Log($"X move: {MoveVector.x}");
-        Debug.Log($"Z move: {MoveVector.z}");
-        Debug.Log("Moving...");
     }
 
+    // when pressed space bar go to jumpstate
     private void OnJump(InputValue value){
-        if(value.isPressed){
-            
+        if(CurrentState != JumpingState && CurrentState != FallingState){
+            SwitchState(JumpingState);
         }
     }
 
     private void OnRun(InputValue value){
-        if(value.isPressed){
+        if(CurrentState != FallingState){
+            //SwitchState(RunningState)
         }
     }
 }

@@ -1,17 +1,17 @@
 using UnityEngine;
 
-public class FallState : PlayerBaseState
+public class PlayerWalkState : PlayerBaseState
 {
     public override void EnterState(PlayerStateManager player) {
-        Debug.Log("Entering Falling");
+        Debug.Log("Entering Walking");
     }
 
     public override void ExitState(PlayerStateManager player) {
-        Debug.Log("Exiting Falling");
+        Debug.Log("Exiting Walking");
     }
 
     public override void UpdateState(PlayerStateManager player) {
-        if(player.Controller.isGrounded){
+        if(player.MoveVector.magnitude == 0){
             player.SwitchState(player.IdlingState);
         } else {
             player.Move();

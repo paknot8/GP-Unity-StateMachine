@@ -25,7 +25,9 @@ public partial class PlayerStateManager : MonoBehaviour
     #region Movement
     void Update()
     {
-        if(CurrentState != FallingState && !Controller.isGrounded){
+        if(CurrentState != FallingState 
+        && CurrentState != JumpingState
+        && !Controller.isGrounded){
             SwitchState(FallingState);
         }
         CurrentState.UpdateState(this);

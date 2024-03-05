@@ -3,10 +3,11 @@ using UnityEngine.InputSystem;
 
 public partial class PlayerStateManager
 {
-    #region ConcreteStates
-    public MoveState MovingState = new MoveState();
-    public IdleState IdlingState = new IdleState();
-    public FallState FallingState = new FallState();
+    #region States
+        public PlayerWalkState WalkingState = new PlayerWalkState();
+        public PlayerIdleState IdlingState = new PlayerIdleState();
+        public PlayerFallState FallingState = new PlayerFallState();
+        public PlayerJumpState JumpingState = new PlayerJumpState();
     #endregion
 
     public CharacterController Controller;

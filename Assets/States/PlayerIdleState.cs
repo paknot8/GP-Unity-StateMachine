@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class IdleState : PlayerBaseState
+public class PlayerIdleState : PlayerBaseState
 {
     public override void EnterState(PlayerStateManager player) {
         Debug.Log("Entering Idle");
@@ -12,7 +12,7 @@ public class IdleState : PlayerBaseState
 
     public override void UpdateState(PlayerStateManager player) {
         if(player.MoveVector.magnitude != 0){
-            player.SwitchState(player.MovingState);
+            player.SwitchState(player.WalkingState);
         }
     }
 }
