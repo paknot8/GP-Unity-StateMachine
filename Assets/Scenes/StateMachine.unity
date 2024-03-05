@@ -1429,7 +1429,7 @@ GameObject:
   - component: {fileID: 352480131}
   m_Layer: 0
   m_Name: Weapon
-  m_TagString: PlayerWeapon
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1444,7 +1444,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.486, y: -0.01, z: 1.02}
-  m_LocalScale: {x: 0.061437365, y: 0.0602584, z: 2.460543}
+  m_LocalScale: {x: 0.061437365, y: 0.15207413, z: 2.460543}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1570387326}
@@ -2947,8 +2947,8 @@ GameObject:
   - component: {fileID: 1303306082}
   - component: {fileID: 1303306081}
   - component: {fileID: 1303306080}
-  - component: {fileID: 1303306084}
   - component: {fileID: 1303306085}
+  - component: {fileID: 1303306086}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -3036,13 +3036,26 @@ Transform:
   m_GameObject: {fileID: 1303306079}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.21, y: 2.82, z: -12.44}
+  m_LocalPosition: {x: 2.92, y: 4.96, z: -28.14}
   m_LocalScale: {x: 2.4474647, y: 2.4998417, z: 2.9447703}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &1303306084
+--- !u!114 &1303306085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303306079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d728264512e010e4fb8c052cb7c06f32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthPoints: 2
+--- !u!54 &1303306086
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3069,18 +3082,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1303306085
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1303306079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d728264512e010e4fb8c052cb7c06f32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1352256147
 GameObject:
   m_ObjectHideFlags: 0
@@ -4988,7 +4989,7 @@ GameObject:
   - component: {fileID: 1570387332}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5294,7 +5295,7 @@ GameObject:
   - component: {fileID: 1634772439}
   m_Layer: 0
   m_Name: Glasses
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7043,7 +7044,7 @@ GameObject:
   - component: {fileID: 2141516414}
   m_Layer: 0
   m_Name: Backpack
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7382,8 +7383,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 791421912739864773, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2979490723336202793, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 4150428134485707741, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
       propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4150428134485707741, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
+      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5781999630304501517, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
@@ -7403,9 +7416,9 @@ SceneRoots:
   - {fileID: 705507995}
   - {fileID: 835361263}
   - {fileID: 361964929}
+  - {fileID: 1303306083}
   - {fileID: 7332436782475839777}
   - {fileID: 63424073}
   - {fileID: 2068112929}
   - {fileID: 541418416}
   - {fileID: 1864354528}
-  - {fileID: 1303306083}

@@ -36,14 +36,14 @@ public partial class PlayerStateManager : MonoBehaviour
     }
 
     // Small thing for attack
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.CompareTag("Enemy"))
-        {
-            GetComponent<MeshRenderer>().material.color = Color.white;
-            //Destroy(collision.gameObject);
-        }
-    }
+    // private void OnCollisionEnter(Collision collision)
+    // {
+    //     if(collision.gameObject.CompareTag("Enemy"))
+    //     {
+    //         collision.gameObject.GetComponent<MeshRenderer>().material.color = Color.white;
+    //         //Destroy(collision.gameObject);
+    //     }
+    // }
 
     public void SwitchState(PlayerBaseState state){
         CurrentState.ExitState(this);
