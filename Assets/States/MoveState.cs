@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WalkState : PlayerBaseState
+public class MoveState : PlayerBaseState
 {
     public override void EnterState(PlayerStateManager player) {
         Debug.Log("Entering Walking");

@@ -12,4 +12,15 @@ public partial class PlayerStateManager
         Debug.Log($"Z move: {MoveVector.z}");
         Debug.Log("Moving...");
     }
+
+    private void OnJump(InputValue value){
+        if(value.isPressed){
+            
+        }
+    }
+
+    private void OnRun(InputValue value){
+        if(value.isPressed){
+        }
+    }
 }

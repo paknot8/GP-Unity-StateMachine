@@ -12,7 +12,7 @@ public class IdleState : PlayerBaseState
 
     public override void UpdateState(PlayerStateManager player) {
         if(player.MoveVector.magnitude != 0){
-            player.SwitchState(player.WalkingState);
+            player.SwitchState(player.MovingState);
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public partial class PlayerStateManager
 {
     #region ConcreteStates
-    public WalkState WalkingState = new WalkState();
+    public MoveState MovingState = new MoveState();
     public IdleState IdlingState = new IdleState();
     public FallState FallingState = new FallState();
     #endregion

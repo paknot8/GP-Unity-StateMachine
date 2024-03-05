@@ -23,7 +23,6 @@ public partial class PlayerStateManager : MonoBehaviour
     }
 
     #region Movement
-
     void Update()
     {
         if(CurrentState != FallingState && !Controller.isGrounded){
@@ -39,18 +38,18 @@ public partial class PlayerStateManager : MonoBehaviour
         state.EnterState(this);
     }
 
-    public void ApplyGravity() 
+    public void ApplyGravity()
     {
         Controller.Move(_gravityVector * Time.deltaTime);
     }
 
-    public void Move() 
+    public void Move()
     {
-        Controller.Move(PlayerSpeed * MoveVector * Time.deltaTime);
+        Controller.Move(PlayerSpeed * Time.deltaTime * MoveVector);
         RotateTowardsVector(); // when player is moving it updates the rotation;
     }
 
-    public void RotateTowardsVector() 
+    public void RotateTowardsVector()
     {
         var xzDirection = new Vector3(MoveVector.x, 0, MoveVector.z); // Look at direction
         if(xzDirection.magnitude == 0) return; // check if it's 0 no new point
