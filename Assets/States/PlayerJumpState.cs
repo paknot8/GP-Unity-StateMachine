@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerJumpState : PlayerBaseState
 {
     private float JumpForce = .1f;
-    private int MaxForce = 10;
+    private int MaxForce = 20;
 
     public override void EnterState(PlayerStateManager player)
     {

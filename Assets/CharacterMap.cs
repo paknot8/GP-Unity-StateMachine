@@ -9,16 +9,15 @@ public partial class PlayerStateManager
         MoveVector.z = InputVector.y;
     }
 
-    // when pressed space bar go to jumpstate
+    private void OnRun(InputValue value){
+        if(value.isPressed && CurrentState != FallingState){
+            SwitchState(RunningState);
+        }
+    }
+
     private void OnJump(InputValue value){
         if(CurrentState != JumpingState && CurrentState != FallingState){
             SwitchState(JumpingState);
         }
-    }
-
-    private void OnRun(InputValue value){
-        if(CurrentState != FallingState){
-            //SwitchState(RunningState)
-        }
-    }
+    }  
 }
