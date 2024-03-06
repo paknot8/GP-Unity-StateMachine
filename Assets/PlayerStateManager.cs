@@ -1,12 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// TODO - Change color for Sprint, idle, Jumping
-// TODO - Make Level
-// TODO - Pick up coins
-// TODO - Score Board
-// TODO EXTRA - Enemy AI
-
 public partial class PlayerStateManager : MonoBehaviour
 {
     private void Awake(){
