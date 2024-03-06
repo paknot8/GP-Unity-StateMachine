@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class EnemyManagement : MonoBehaviour
 {
     public float healthPoints = 2f;
     public float timerDuration = 1f;
@@ -48,12 +48,23 @@ public class Enemy : MonoBehaviour
         isKnockedBack = true;
     }
 
+    private void DestroyObject()
+    {
+        // Destroy the GameObject after the specified duration
+        Destroy(gameObject);
+    }
+
     private void Update()
+    {
+        KnockBack();        
+    }
+
+    private void KnockBack()
     {
         if (isKnockedBack)
         {
             // Apply friction to decelerate the enemy
-            GetComponent<Rigidbody>().velocity -= GetComponent<Rigidbody>().velocity * friction * Time.deltaTime;
+            GetComponent<Rigidbody>().velocity -= friction * Time.deltaTime * GetComponent<Rigidbody>().velocity;
 
             // Check if the velocity is low enough to stop
             if (GetComponent<Rigidbody>().velocity.magnitude < 0.1f)
@@ -62,7 +73,11 @@ public class Enemy : MonoBehaviour
                 isKnockedBack = false;
             }
         }
+        MaxHeightAfterHit();
+    }
 
+    private void MaxHeightAfterHit()
+    {
         // Restrict the enemy's Y position
         if (transform.position.y > maxHeight)
         {
@@ -72,19 +87,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void DestroyObject()
-    {
-        // Destroy the GameObject after the specified duration
-        Destroy(gameObject);
-    }
-
     void OnTriggerStay(Collider other)
     {
-        // TODO
+        Debug.Log("Staying in the collision...");
     }
 
     void OnTriggerExit(Collider other)
     {
-        // TODO
+        Debug.Log("Exiting collision...");
     }
 }
