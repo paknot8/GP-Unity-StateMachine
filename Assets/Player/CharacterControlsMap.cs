@@ -24,5 +24,5 @@ public partial class PlayerStateManager
         if(PlayerCurrentState != JumpingState && PlayerCurrentState != FallingState){
             SwitchState(JumpingState);
         }
-    }  
+    }
 }
