@@ -14,6 +14,7 @@ public partial class PlayerStateManager
     public CharacterController Controller;
     public PlayerInput Input;
     public PlayerBaseState CurrentState;
+    public AudioSource audioSource;
 
     public Vector3 MoveVector;
     public Vector2 InputVector;
