@@ -10,10 +10,14 @@ public class PlayerFallState : PlayerBaseState
         Debug.Log("Exiting Falling");
     }
 
-    public override void UpdateState(PlayerStateManager player) {
-        if(player.Controller.isGrounded){
+    public override void UpdateState(PlayerStateManager player)
+     {
+        if(player.Controller.isGrounded)
+        {
             player.SwitchState(player.IdlingState);
-        } else {
+        } 
+        else 
+        {
             player.Move();
         }
     }
