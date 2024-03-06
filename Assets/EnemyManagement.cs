@@ -4,15 +4,17 @@ public class EnemyManagement : MonoBehaviour
 {
     public float healthPoints = 2f;
     public float timerDuration = 1f;
+    public float collisionCooldown = 1f; // Time during which the enemy is immune to collision after being hit
     public float pushForce = 3f;
     public float friction = 2f; // Adjust the friction value as needed
     private bool isKnockedBack = false;
+    private bool isCollisionCooldown = false; // Flag to track if the enemy is in collision cooldown
     private float maxHeight = 5f; // Set your desired maximum height
 
     // On hit, change color and apply force.
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Weapon"))
+        if (other.gameObject.CompareTag("Weapon") && !isCollisionCooldown)
         {
             ApplyForce();
             switch (healthPoints)
@@ -37,7 +39,21 @@ public class EnemyManagement : MonoBehaviour
                     Invoke(nameof(DestroyObject), timerDuration); // destroy object after a certain time
                     break;
             }
+
+            // Start the collision cooldown
+            StartCollisionCooldown();
         }
+    }
+
+    private void StartCollisionCooldown()
+    {
+        isCollisionCooldown = true;
+        Invoke(nameof(EndCollisionCooldown), collisionCooldown);
+    }
+
+    private void EndCollisionCooldown()
+    {
+        isCollisionCooldown = false;
     }
 
     private void ApplyForce()

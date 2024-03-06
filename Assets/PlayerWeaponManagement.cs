@@ -1,12 +1,9 @@
-
-
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
     public float slashSpeed = 100f; // Adjust the speed of the slash
-
-    private bool slashingUp = true; // Flag to determine whether to slash up or down
+    private bool slashingUp = true;
 
     // Update is called once per frame
     void Update()
