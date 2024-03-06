@@ -4,11 +4,11 @@ public class EnemyManagement : MonoBehaviour
 {
     public float healthPoints = 2f;
     public float timerDuration = 1f;
-    public float collisionCooldown = 1f; // Time during which the enemy is immune to collision after being hit
     public float pushForce = 3f;
     public float friction = 2f; // Adjust the friction value as needed
     private bool isKnockedBack = false;
     private bool isCollisionCooldown = false; // Flag to track if the enemy is in collision cooldown
+    public float collisionCooldown = 0.5f; // Time during which the enemy is immune to collision after being hit
     private float maxHeight = 5f; // Set your desired maximum height
 
     // On hit, change color and apply force.
