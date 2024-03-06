@@ -1444,8 +1444,8 @@ Transform:
   m_GameObject: {fileID: 352480129}
   serializedVersion: 2
   m_LocalRotation: {x: -0.32696232, y: -0, z: -0, w: 0.9450374}
-  m_LocalPosition: {x: 0.48, y: 0.17, z: 0.6099993}
-  m_LocalScale: {x: 0.061437365, y: 0.15207413, z: 1.8098611}
+  m_LocalPosition: {x: 0.41, y: 0, z: 0.65}
+  m_LocalScale: {x: 0.061437365, y: 0.15207413, z: 1.3008134}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1570387326}
@@ -1533,6 +1533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ac9493cd3f2d6944bffffd6d060a2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slashSpeed: 100
 --- !u!1 &361964927
 GameObject:
   m_ObjectHideFlags: 0
@@ -3072,6 +3073,7 @@ MonoBehaviour:
   timerDuration: 3
   pushForce: 5
   friction: 2
+  collisionCooldown: 1
 --- !u!54 &1303306086
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5046,6 +5048,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Controller: {fileID: 0}
   Input: {fileID: 0}
+  audioSource: {fileID: 0}
   MoveVector: {x: 0, y: 0, z: 0}
   InputVector: {x: 0, y: 0}
   PlayerSpeed: 0

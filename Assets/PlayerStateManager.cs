@@ -15,7 +15,7 @@ public partial class PlayerStateManager : MonoBehaviour
         PlayerSpeed = 5f;
         PlayerSpeedMultiplier = 2f;
         PlayerRotateSpeed = 100;
-        Physics.gravity = new Vector3(0, -1.0F, 0);
+        _gravityVector = new Vector3(0, -1.0F, 0);
     }
 
     void Start(){
@@ -42,8 +42,7 @@ public partial class PlayerStateManager : MonoBehaviour
 
     public void ApplyGravity()
     {
-        _gravityVector += Physics.gravity * Time.deltaTime;
-        Controller.Move(_gravityVector * Time.deltaTime);
+        Controller.Move((_gravityVector += Physics.gravity * Time.deltaTime) * Time.deltaTime);
     }
 
     public void Move()
