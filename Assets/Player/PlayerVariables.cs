@@ -11,15 +11,22 @@ public partial class PlayerStateManager
         public PlayerJumpState JumpingState = new PlayerJumpState();
     #endregion
 
-    public CharacterController Controller;
-    public PlayerInput Input;
-    public PlayerBaseState PlayerCurrentState;
-    public AudioSource audioSource;
+    #region References
+        public CharacterController Controller;
+        public PlayerInput Input;
+        public PlayerBaseState PlayerCurrentState;
+        public AudioSource audioSource;
+    #endregion
 
-    public Vector3 MoveVector;
-    public Vector2 InputVector;
-    public float PlayerSpeed;
-    public float PlayerSpeedMultiplier;
-    public float PlayerRotateSpeed;
-    private Vector3 _gravityVector;
+    #region Basic Variables
+        public Vector3 MoveVector;
+        public Vector2 InputVector;
+        private Vector3 _gravityVector;
+
+        public float PlayerSpeed;
+        public float PlayerSpeedMultiplier;
+        public float PlayerRotateSpeed;
+        private float JumpForce;
+        private float MaxForce;
+    #endregion
 }

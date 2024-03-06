@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.InputSystem.XR.Haptics;
 
 public class PlayerJumpState : PlayerBaseState
 {
-    private float jumpForce = 0.1f;
-    private float maxForce = 10f;
+    // private float jumpForce = 0.1f;
+    // private float maxForce = 10f;
+
+    Rigidbody rigidbody;
 
     public override void EnterState(PlayerStateManager player)
     {
@@ -18,13 +21,14 @@ public class PlayerJumpState : PlayerBaseState
 
     public override void UpdateState(PlayerStateManager player)
     {  
-       player.MoveVector.y += jumpForce;
+    
+    //    player.MoveVector.y += jumpForce;
 
-       if(player.MoveVector.y >= maxForce)
-       {
-            player.SwitchState(player.FallingState);
-       }
+    //    if(player.MoveVector.y >= maxForce)
+    //    {
+    //         player.SwitchState(player.FallingState);
+    //    }
 
-       player.Move();
+    //    player.Move();
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public partial class PlayerStateManager : MonoBehaviour
 {
     private void Awake(){
+        
         Controller = GetComponent<CharacterController>();
         Input = GetComponent<PlayerInput>();
         PlayerSpeed = 5f;
@@ -48,6 +49,11 @@ public partial class PlayerStateManager : MonoBehaviour
     public void Run(){
         Controller.Move(PlayerSpeed * PlayerSpeedMultiplier * Time.deltaTime * MoveVector);
         RotateTowardsVector();
+    }
+
+    public void Jump(){
+        //if(PlayerCurrentState != FallingState) .AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        //if(playerState != fallState) rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
     public void RotateTowardsVector()
