@@ -12,7 +12,7 @@ public partial class PlayerStateManager
 
     private void OnRun(InputValue value)
     {
-        if(value.isPressed && CurrentState != FallingState){
+        if(value.isPressed && PlayerCurrentState != FallingState){
             SwitchState(RunningState);
         }
     }
@@ -21,7 +21,7 @@ public partial class PlayerStateManager
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.Play();
-        if(CurrentState != JumpingState && CurrentState != FallingState){
+        if(PlayerCurrentState != JumpingState && PlayerCurrentState != FallingState){
             SwitchState(JumpingState);
         }
     }  

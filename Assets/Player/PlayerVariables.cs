@@ -13,7 +13,7 @@ public partial class PlayerStateManager
 
     public CharacterController Controller;
     public PlayerInput Input;
-    public PlayerBaseState CurrentState;
+    public PlayerBaseState PlayerCurrentState;
     public AudioSource audioSource;
 
     public Vector3 MoveVector;

@@ -13,24 +13,24 @@ public partial class PlayerStateManager : MonoBehaviour
     }
 
     void Start(){
-        CurrentState = IdlingState; // start with this state
-        CurrentState.EnterState(this);
+        PlayerCurrentState = IdlingState; // start with this state
+        PlayerCurrentState.EnterState(this);
     }
 
     #region Movement
     void Update()
     {
-        if(CurrentState != FallingState && CurrentState != JumpingState && !Controller.isGrounded)
+        if(PlayerCurrentState != FallingState && PlayerCurrentState != JumpingState && !Controller.isGrounded)
         {
             SwitchState(FallingState);
         }
-        CurrentState.UpdateState(this);
+        PlayerCurrentState.UpdateState(this);
         ApplyGravity();
     }
 
     public void SwitchState(PlayerBaseState state){
-        CurrentState.ExitState(this);
-        CurrentState = state;
+        PlayerCurrentState.ExitState(this);
+        PlayerCurrentState = state;
         state.EnterState(this);
     }
 
