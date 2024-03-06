@@ -16,6 +16,7 @@ public partial class PlayerStateManager
         public PlayerInput Input;
         public PlayerBaseState PlayerCurrentState;
         public AudioSource audioSource;
+        public Rigidbody rb;
     #endregion
 
     #region Basic Variables
@@ -26,7 +27,7 @@ public partial class PlayerStateManager
         public float PlayerSpeed;
         public float PlayerSpeedMultiplier;
         public float PlayerRotateSpeed;
-        private float JumpForce;
-        private float MaxForce;
+        public float JumpForce;
+        public float MaxForce;
     #endregion
 }

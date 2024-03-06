@@ -3,11 +3,11 @@ using UnityEngine;
 public class PlayerFallState : PlayerBaseState
 {
     public override void EnterState(PlayerStateManager player) {
-        Debug.Log("Entering Falling");
+        //Debug.Log("Entering Falling");
     }
 
     public override void ExitState(PlayerStateManager player) {
-        Debug.Log("Exiting Falling");
+        //Debug.Log("Exiting Falling");
     }
 
     public override void UpdateState(PlayerStateManager player)
@@ -18,7 +18,7 @@ public class PlayerFallState : PlayerBaseState
         } 
         else 
         {
-            player.Move();
+            player.Walk();
         }
     }
 }

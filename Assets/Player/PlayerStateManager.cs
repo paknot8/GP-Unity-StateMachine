@@ -4,13 +4,14 @@ using UnityEngine.InputSystem;
 public partial class PlayerStateManager : MonoBehaviour
 {
     private void Awake(){
-        
+        rb = GetComponent<Rigidbody>();
         Controller = GetComponent<CharacterController>();
         Input = GetComponent<PlayerInput>();
         PlayerSpeed = 5f;
         PlayerSpeedMultiplier = 2f;
         PlayerRotateSpeed = 100;
         _gravityVector = new Vector3(0, -1.0F, 0);
+        JumpForce = 10f;
     }
 
     void Start(){
@@ -21,7 +22,9 @@ public partial class PlayerStateManager : MonoBehaviour
     #region Movement
     void Update()
     {
-        if(PlayerCurrentState != FallingState && PlayerCurrentState != JumpingState && !Controller.isGrounded)
+        if(PlayerCurrentState != FallingState 
+        && PlayerCurrentState != JumpingState 
+        && !Controller.isGrounded)
         {
             SwitchState(FallingState);
         }
@@ -40,7 +43,7 @@ public partial class PlayerStateManager : MonoBehaviour
         Controller.Move((_gravityVector += Physics.gravity * Time.deltaTime) * Time.deltaTime);
     }
 
-    public void Move()
+    public void Walk()
     {
         Controller.Move(PlayerSpeed * Time.deltaTime * MoveVector);
         RotateTowardsVector(); // when player is moving it updates the rotation;
@@ -52,16 +55,21 @@ public partial class PlayerStateManager : MonoBehaviour
     }
 
     public void Jump(){
-        //if(PlayerCurrentState != FallingState) .AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        //if(playerState != fallState) rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        if(!Controller.isGrounded){
+             rb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse); 
+             Debug.Log("Function call Jump");
+        }
     }
 
     public void RotateTowardsVector()
     {
-        var xzDirection = new Vector3(MoveVector.x, 0, MoveVector.z); // Look at direction
-        if(xzDirection.magnitude == 0) return; // check if it's 0 no new point
-        var rotation = Quaternion.LookRotation(xzDirection); // Help create rotation can be applied to vectors
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, PlayerRotateSpeed); // Make feel the controller feel snappy and responsive
+        Vector3 xzDirection = new Vector3(MoveVector.x, 0, MoveVector.z);
+
+        if (xzDirection.magnitude != 0)
+        {
+            Quaternion rotation = Quaternion.LookRotation(xzDirection);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, PlayerRotateSpeed);
+        }
     }
     #endregion
 }
