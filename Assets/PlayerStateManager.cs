@@ -15,7 +15,7 @@ public partial class PlayerStateManager : MonoBehaviour
         PlayerSpeed = 5f;
         PlayerSpeedMultiplier = 2f;
         PlayerRotateSpeed = 100;
-        _gravityVector = new Vector3(0 ,-9.81f, 0);
+        _gravityVector = Vector3.zero;
     }
 
     void Start(){
@@ -26,9 +26,8 @@ public partial class PlayerStateManager : MonoBehaviour
     #region Movement
     void Update()
     {
-        if(CurrentState != FallingState 
-        && CurrentState != JumpingState
-        && !Controller.isGrounded){
+        if(CurrentState != FallingState && CurrentState != JumpingState && !Controller.isGrounded)
+        {
             SwitchState(FallingState);
         }
         CurrentState.UpdateState(this);
@@ -43,6 +42,7 @@ public partial class PlayerStateManager : MonoBehaviour
 
     public void ApplyGravity()
     {
+        _gravityVector += Physics.gravity * Time.deltaTime;
         Controller.Move(_gravityVector * Time.deltaTime);
     }
 

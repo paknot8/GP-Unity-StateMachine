@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerJumpState : PlayerBaseState
 {
-    private float JumpForce = .1f;
-    private int MaxForce = 20;
+    private float jumpForce = 0.1f;
+    private int maxForce = 20;
 
     public override void EnterState(PlayerStateManager player)
     {
@@ -18,10 +18,10 @@ public class PlayerJumpState : PlayerBaseState
 
     public override void UpdateState(PlayerStateManager player)
     {
-       player.MoveVector.y += JumpForce;
+       player.MoveVector.y += jumpForce;
 
     // Naar boven
-       if(player.MoveVector.y >= MaxForce)
+       if(player.MoveVector.y >= maxForce)
        {
             player.SwitchState(player.FallingState);
        }
