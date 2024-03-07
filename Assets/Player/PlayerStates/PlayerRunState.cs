@@ -15,7 +15,6 @@ public class PlayerRunState : PlayerBaseState
             player.SwitchState(player.IdlingState);
         } else {
             player.Run();
-            Debug.Log("Running right now...");
         }
     }
 }

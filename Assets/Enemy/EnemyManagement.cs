@@ -105,13 +105,13 @@ public partial class EnemyManagement : MonoBehaviour
         }
     }
 
-    void OnTriggerStay(Collider other)
-    {
-        Debug.Log("Staying in the collision...");
-    }
+    // void OnTriggerStay(Collider other)
+    // {
+    //     Debug.Log("Staying in the collision...");
+    // }
 
-    void OnTriggerExit(Collider other)
-    {
-        Debug.Log("Exiting collision...");
-    }
+    // void OnTriggerExit(Collider other)
+    // {
+    //     Debug.Log("Exiting collision...");
+    // }
 }

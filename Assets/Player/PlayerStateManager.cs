@@ -68,7 +68,7 @@ public partial class PlayerStateManager : MonoBehaviour
         if (xzDirection.magnitude != 0)
         {
             Quaternion rotation = Quaternion.LookRotation(xzDirection);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, PlayerRotateSpeed);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, PlayerRotateSpeed * Time.deltaTime);
         }
     }
     #endregion
