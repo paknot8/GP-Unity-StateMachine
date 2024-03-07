@@ -15,17 +15,19 @@ public class PlayerJumpState : PlayerBaseState
     }
 
     public override void UpdateState(PlayerStateManager player)
-    {
-        if(player.MoveVector.y == 0){
+    {  
+        if(player.MoveVector.y == 0)
+        {
             player.Jump();
-            Debug.Log("Jumping at this moment...");
+            Debug.Log("Jumping at this moment... in de state");
             player.SwitchState(player.FallingState);
-        } else {
+        } 
+        else 
+        {
            player.SwitchState(player.IdlingState);
         }
         
 
-        //player.Jump();
 
         // if (player.MoveVector.y <= 0)
         // {
@@ -38,6 +40,6 @@ public class PlayerJumpState : PlayerBaseState
         //     player.Jump(); 
         // }
 
-        // player.Move();
+        // player.Walk();
     }
 }
