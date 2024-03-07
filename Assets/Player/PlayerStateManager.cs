@@ -10,7 +10,7 @@ public partial class PlayerStateManager : MonoBehaviour
         PlayerSpeed = 5f;
         PlayerSpeedMultiplier = 2f;
         PlayerRotateSpeed = 750;
-        _gravityVector = new Vector3(0, -1.0F, 0);
+        _gravityVector = new Vector3(0, -1F, 0);
     }
 
     void Start(){
@@ -26,6 +26,7 @@ public partial class PlayerStateManager : MonoBehaviour
             SwitchState(FallingState);
         }
         PlayerCurrentState.UpdateState(this);
+        ApplyGravity();
     }
 
     public void SwitchState(PlayerBaseState state){
@@ -36,6 +37,7 @@ public partial class PlayerStateManager : MonoBehaviour
 
     public void ApplyGravity()
     {
+        Controller.Move(PlayerSpeed * Time.deltaTime * MoveVector);
         Controller.Move((_gravityVector += Physics.gravity * Time.deltaTime) * Time.deltaTime);
     }
 
