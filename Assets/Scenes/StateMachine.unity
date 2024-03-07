@@ -1427,7 +1427,6 @@ GameObject:
   - component: {fileID: 352480133}
   - component: {fileID: 352480132}
   - component: {fileID: 352480131}
-  - component: {fileID: 352480134}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Weapon
@@ -1521,19 +1520,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 352480129}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &352480134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 352480129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ac9493cd3f2d6944bffffd6d060a2c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slashSpeed: 100
 --- !u!1 &361964927
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,10 +15,7 @@ public class PlayerRunState : PlayerBaseState
             player.SwitchState(player.IdlingState);
         } else {
             player.Run();
-<<<<<<< HEAD
-=======
             Debug.Log("Running Should work???");
->>>>>>> parent of da0a472 (Everything works fine, only Jumpstate not working.)
         }
     }
 }

@@ -9,13 +9,8 @@ public partial class PlayerStateManager : MonoBehaviour
         Input = GetComponent<PlayerInput>();
         PlayerSpeed = 5f;
         PlayerSpeedMultiplier = 2f;
-<<<<<<< HEAD
-        PlayerRotateSpeed = 1000f; // for rotation
-        JumpForce = 10f;
-=======
-        PlayerRotateSpeed = 100;
+        PlayerRotateSpeed = 750;
         _gravityVector = new Vector3(0, -1.0F, 0);
->>>>>>> parent of da0a472 (Everything works fine, only Jumpstate not working.)
     }
 
     void Start(){
@@ -39,16 +34,12 @@ public partial class PlayerStateManager : MonoBehaviour
         state.EnterState(this);
     }
 
-<<<<<<< HEAD
-    public void Walk()
-=======
     public void ApplyGravity()
     {
         Controller.Move((_gravityVector += Physics.gravity * Time.deltaTime) * Time.deltaTime);
     }
 
     public void Move()
->>>>>>> parent of da0a472 (Everything works fine, only Jumpstate not working.)
     {
         Controller.Move(PlayerSpeed * Time.deltaTime * MoveVector);
         RotateTowardsVector(); // when player is moving it updates the rotation;
@@ -66,7 +57,6 @@ public partial class PlayerStateManager : MonoBehaviour
 
     public void RotateTowardsVector()
     {
-<<<<<<< HEAD
         Vector3 xzDirection = new(MoveVector.x, 0, MoveVector.z);
 
         if (xzDirection.magnitude != 0)
@@ -74,12 +64,6 @@ public partial class PlayerStateManager : MonoBehaviour
             Quaternion rotation = Quaternion.LookRotation(xzDirection);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, PlayerRotateSpeed * Time.deltaTime);
         }
-=======
-        var xzDirection = new Vector3(MoveVector.x, 0, MoveVector.z); // Look at direction
-        if(xzDirection.magnitude == 0) return; // check if it's 0 no new point
-        var rotation = Quaternion.LookRotation(xzDirection); // Help create rotation can be applied to vectors
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, PlayerRotateSpeed); // Make feel the controller feel snappy and responsive
->>>>>>> parent of da0a472 (Everything works fine, only Jumpstate not working.)
     }
     #endregion
 }

@@ -3,8 +3,8 @@ using UnityEngine.InputSystem.XR.Haptics;
 
 public class PlayerJumpState : PlayerBaseState
 {
-    // private float jumpForce = 0.1f;
-    // private float maxForce = 10f;
+    private float jumpForce = 0.1f;
+    private float maxForce = 10f;
 
     Rigidbody rigidbody;
 
@@ -21,42 +21,13 @@ public class PlayerJumpState : PlayerBaseState
 
     public override void UpdateState(PlayerStateManager player)
     {  
-<<<<<<< HEAD
-        if(player.MoveVector.y == 0)
-        {
-            player.Jump();
-            Debug.Log("Jumping at this moment... in de state");
+       player.MoveVector.y += jumpForce;
+
+       if(player.MoveVector.y >= maxForce)
+       {
             player.SwitchState(player.FallingState);
-        } 
-        else 
-        {
-           player.SwitchState(player.IdlingState);
-        }
-        
+       }
 
-
-        // if (player.MoveVector.y <= 0)
-        // {
-        //     // Player is falling, switch to FallingState
-        //     player.SwitchState(player.FallingState);
-        //     Debug.Log("fall state from jump?");
-        //     return;
-        // } else {
-        //     Debug.Log("jumping");
-        //     player.Jump(); 
-        // }
-
-        // player.Walk();
-=======
-    
-    //    player.MoveVector.y += jumpForce;
-
-    //    if(player.MoveVector.y >= maxForce)
-    //    {
-    //         player.SwitchState(player.FallingState);
-    //    }
-
-    //    player.Move();
->>>>>>> parent of da0a472 (Everything works fine, only Jumpstate not working.)
+       player.Move();
     }
 }
