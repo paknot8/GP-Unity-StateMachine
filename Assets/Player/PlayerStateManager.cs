@@ -69,7 +69,7 @@ public partial class PlayerStateManager : MonoBehaviour
 
     public void RotateTowardsVector()
     {
-        Vector3 xzDirection = new Vector3(MoveVector.x, 0, MoveVector.z);
+        Vector3 xzDirection = new(MoveVector.x, 0, MoveVector.z);
 
         if (xzDirection.magnitude != 0)
         {
