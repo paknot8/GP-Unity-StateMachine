@@ -8,7 +8,7 @@ public partial class EnemyManagement
     public float friction;
     private float maxHeight;
 
-    private bool isKnockedBack;
-    private bool isCollisionCooldown;
+    public bool isKnockedBack;
+    public bool isCollisionCooldown;
     public float collisionCooldown;
 }

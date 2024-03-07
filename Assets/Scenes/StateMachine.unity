@@ -3059,6 +3059,8 @@ MonoBehaviour:
   timerDuration: 3
   pushForce: 5
   friction: 2
+  isKnockedBack: 0
+  isCollisionCooldown: 0
   collisionCooldown: 1
 --- !u!54 &1303306086
 Rigidbody:
@@ -5253,7 +5255,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
-  m_DefaultActionMap: PlayerMovements
+  m_DefaultActionMap: PlayerControls
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!54 &1570387331

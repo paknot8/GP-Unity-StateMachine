@@ -2,14 +2,16 @@ using UnityEngine;
 
 public partial class EnemyManagement : MonoBehaviour
 {
-    public float healthPoints = 2f;
-    public float timerDuration = 1f;
-    public float pushForce = 3f;
-    public float friction = 2f; // Adjust the friction value as needed
-    private bool isKnockedBack = false;
-    private bool isCollisionCooldown = false; // Flag to track if the enemy is in collision cooldown
-    public float collisionCooldown = 0.5f; // Time during which the enemy is immune to collision after being hit
-    private float maxHeight = 5f; // Set your desired maximum height
+    void Awake(){
+        healthPoints = 2f;
+        timerDuration = 1f;
+        pushForce = 3f;
+        friction = 2f; // Adjust the friction value as needed
+        isKnockedBack = false;
+        isCollisionCooldown = false; // Flag to track if the enemy is in collision cooldown
+        collisionCooldown = 0.5f; // Time during which the enemy is immune to collision after being hit
+        maxHeight = 5f; // Set your desired maximum height
+    }
 
     // On hit, change color and apply force.
     void OnTriggerEnter(Collider other)
