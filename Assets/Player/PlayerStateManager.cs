@@ -3,12 +3,6 @@ using UnityEngine.InputSystem;
 
 public partial class PlayerStateManager : MonoBehaviour
 {
-    // The target marker.
-    public Transform target;
-
-    // Angular speed in radians per sec.
-    public float speed = 1.0f;
-
     private void Awake(){
         rb = GetComponent<Rigidbody>();
         Controller = GetComponent<CharacterController>();
@@ -16,7 +10,6 @@ public partial class PlayerStateManager : MonoBehaviour
         PlayerSpeed = 5f;
         PlayerSpeedMultiplier = 2f;
         PlayerRotateSpeed = 1000f; // for rotation
-        _gravityVector = new Vector3(0, -1.0F, 0);
         JumpForce = 10f;
     }
 
@@ -35,18 +28,12 @@ public partial class PlayerStateManager : MonoBehaviour
             SwitchState(FallingState);
         }
         PlayerCurrentState.UpdateState(this);
-        ApplyGravity();
     }
 
     public void SwitchState(PlayerBaseState state){
         PlayerCurrentState.ExitState(this);
         PlayerCurrentState = state;
         state.EnterState(this);
-    }
-
-    public void ApplyGravity()
-    {
-        Controller.Move((_gravityVector += Physics.gravity * Time.deltaTime) * Time.deltaTime);
     }
 
     public void Walk()
