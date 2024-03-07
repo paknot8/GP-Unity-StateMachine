@@ -3,11 +3,11 @@ using UnityEngine;
 public class PlayerRunState : PlayerBaseState
 {
     public override void EnterState(PlayerStateManager player) {
-        //Debug.Log("Entering Running");
+        Debug.Log("Entering Running");
     }
 
     public override void ExitState(PlayerStateManager player) {
-        //Debug.Log("Exiting Running");
+        Debug.Log("Exiting Running");
     }
 
     public override void UpdateState(PlayerStateManager player) {
@@ -15,6 +15,10 @@ public class PlayerRunState : PlayerBaseState
             player.SwitchState(player.IdlingState);
         } else {
             player.Run();
+<<<<<<< HEAD
+=======
+            Debug.Log("Running Should work???");
+>>>>>>> parent of da0a472 (Everything works fine, only Jumpstate not working.)
         }
     }
 }

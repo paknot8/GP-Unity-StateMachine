@@ -5049,14 +5049,11 @@ MonoBehaviour:
   Controller: {fileID: 0}
   Input: {fileID: 0}
   audioSource: {fileID: 0}
-  rb: {fileID: 0}
   MoveVector: {x: 0, y: 0, z: 0}
   InputVector: {x: 0, y: 0}
   PlayerSpeed: 0
   PlayerSpeedMultiplier: 0
   PlayerRotateSpeed: 0
-  JumpForce: 0
-  MaxForce: 0
 --- !u!136 &1570387323
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5270,7 +5267,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
-  m_DefaultActionMap: PlayerControls
+  m_DefaultActionMap: PlayerMovements
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!54 &1570387331

@@ -19,7 +19,7 @@ public class PlayerFallState : PlayerBaseState
         } 
         else 
         {
-            player.Walk();
+            player.Move();
         }
     }
 }
