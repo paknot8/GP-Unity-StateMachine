@@ -1,11 +1,18 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    #region Object Components Reference
+    #region General Object Components References
         Rigidbody rigidBody;
         CapsuleCollider capsuleCollider;
+    #endregion
+
+    #region Player Facing Direction
+        [HideInInspector] public Vector3 direction;
+        [HideInInspector] public Vector3 cameraForward;
+        [HideInInspector] public Vector3 cameraRight;
     #endregion
 
     #region Basic Variables
@@ -13,6 +20,7 @@ public class Player : MonoBehaviour
         [HideInInspector] public bool isSprinting = false;
         public float jumpToFallTimer = 0.15f;
         public float jumpForce = 7;
+        public float currentSpeed;
         public float walkSpeed = 5;
         public float runSpeed = 10;
         public float speedChangeRate = 5;
@@ -51,35 +59,52 @@ public class Player : MonoBehaviour
             ChangeState(idleState);
         }
 
-        float currentSpeed;
-        if (isSprinting)
-        {
+        if (isSprinting){
             currentSpeed = runSpeed;
-        }
-        else
-        {
+        } else {
             currentSpeed = walkSpeed;
-        }
+        }       
+        FaceDirection(); 
+    }
 
-        Vector3 direction = new(movement.x, 0, movement.y);
-
-        Vector3 cameraForward = Camera.main.transform.forward;
-        Vector3 cameraRight = Camera.main.transform.right;
+    public void FaceDirection(){
+        cameraForward = Camera.main.transform.forward;
+        cameraRight = Camera.main.transform.right;
+        direction = new Vector3(movement.x, 0, movement.y); 
         cameraForward.y = 0;
         cameraRight.y = 0;
         cameraForward = cameraForward.normalized;
         cameraRight = cameraRight.normalized;
 
-        Vector3 moveDirection = cameraForward * direction.z + cameraRight * direction.x;
+        // Get the movement direction
+        Vector3 moveToDirection = cameraForward * direction.z + cameraRight * direction.x;
 
-        transform.Translate(currentSpeed * Time.deltaTime * moveDirection, Space.World);
+        // Translate the current movement move dependent on the space of the world environment.
+        transform.Translate(currentSpeed * Time.deltaTime * moveToDirection, Space.World);
 
+        // Turn to direction
         Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
+
+        // Look forward to the direction.
         Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
 
+        // Do the rotation
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
     }
 
+    public bool IsOnGroundCheck()
+    {
+        return Physics.Raycast(transform.position + capsuleCollider.center, Vector3.down, capsuleCollider.bounds.extents.y + groundCheckRange);
+    }
+
+    public void ChangeState(PlayerBaseState state)
+    {
+        playerState.ExitState(this);
+        playerState = state;
+        playerState.EnterState(this);
+    }
+
+    #region Player Controls
     void OnMove(InputValue value)
     {
         movement = value.Get<Vector2>();
@@ -112,28 +137,7 @@ public class Player : MonoBehaviour
             ChangeState(hitState);
         }
     }
-
-    public bool IsOnGroundCheck()
-    {
-        return Physics.Raycast(transform.position + capsuleCollider.center, Vector3.down, capsuleCollider.bounds.extents.y + groundCheckRange);
-    }
-
-    public void ChangeState(PlayerBaseState state)
-    {
-        playerState.ExitState(this);
-        playerState = state;
-        playerState.EnterState(this);
-    }
-
-    private void OnFootstep(AnimationEvent animationEvent)
-    {
-        
-    }
-
-    private void OnLand(AnimationEvent animationEvent)
-    {
-       
-    }
+    #endregion
 }
 
 
