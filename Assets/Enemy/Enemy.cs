@@ -1,18 +1,17 @@
 using UnityEngine;
 
-public class EnemyManagement : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     #region Basic Variables
-        public float healthPoints = 2f;
-        public float timerDuration = 1f;
-        public float pushForce = 3f;
-        public float friction = 2f;
-        public float maxHeight = 5f;
+        public float healthPoints = 2;
+        public float cooldownTimer = 1;
+        public float pushForce = 3;
+        public float pushFriction = 2;
+        public float maxKnockbackHeight = 5;
+        public bool isKnockedBack = false;
+        public bool isCollisionCooldown = false;
+        public float collisionCooldown = 0.5f;
     #endregion
-
-    public bool isKnockedBack = false;
-    public bool isCollisionCooldown = false;
-    public float collisionCooldown = 0.5f;
 
     // On hit, change color and apply force.
     void OnTriggerEnter(Collider other)
@@ -39,7 +38,7 @@ public class EnemyManagement : MonoBehaviour
                     this.gameObject.GetComponent<MeshRenderer>().material.color = new Color32(10, 0, 0, 200);
                     transform.localScale *= 0.2f;
                     print("Hit " + healthPoints);
-                    Invoke(nameof(DestroyObject), timerDuration); // destroy object after a certain time
+                    Invoke(nameof(DestroyObject), cooldownTimer); // destroy object after a certain time
                     break;
             }
 
@@ -83,7 +82,7 @@ public class EnemyManagement : MonoBehaviour
         if (isKnockedBack)
         {
             // Apply friction to decelerate the enemy
-            GetComponent<Rigidbody>().velocity -= friction * Time.deltaTime * GetComponent<Rigidbody>().velocity;
+            GetComponent<Rigidbody>().velocity -= pushFriction * Time.deltaTime * GetComponent<Rigidbody>().velocity;
 
             // Check if the velocity is low enough to stop
             if (GetComponent<Rigidbody>().velocity.magnitude < 0.1f)
@@ -98,10 +97,10 @@ public class EnemyManagement : MonoBehaviour
     private void MaxHeightAfterHit()
     {
         // Restrict the enemy's Y position
-        if (transform.position.y > maxHeight)
+        if (transform.position.y > maxKnockbackHeight)
         {
             Vector3 newPos = transform.position;
-            newPos.y = maxHeight;
+            newPos.y = maxKnockbackHeight;
             transform.position = newPos;
         }
     }
