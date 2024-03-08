@@ -2,24 +2,18 @@ using UnityEngine;
 
 public class PlayerFallState : PlayerBaseState
 {
-    public override void EnterState(PlayerStateManager player) {
-        Debug.Log("Entering Falling");
+    public override void EnterState(Player player)
+    {
+        Debug.Log("Fall");
     }
 
-    public override void ExitState(PlayerStateManager player) {
-        Debug.Log("Exiting Falling");
+    public override void ExitState(Player player)
+    {
+        Debug.Log("Land");
     }
 
-    public override void UpdateState(PlayerStateManager player)
-     {
-        if(player.Controller.isGrounded)
-        {
-            Debug.Log("Currently Falling");
-            player.SwitchState(player.IdlingState);
-        } 
-        else 
-        {
-            player.Move();
-        }
+    public override void UpdateState(Player player)
+    {
+        if (player.GroundCheck()) player.ChangeState(player.idleState);
     }
 }

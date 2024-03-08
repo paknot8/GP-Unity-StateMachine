@@ -1,5 +1,5 @@
 {
-    "name": "CharacterInput",
+    "name": "CharacterControls",
     "maps": [
         {
             "name": "PlayerControls",
@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Sprint",
+                    "type": "Button",
+                    "id": "3c79fd53-b970-4eae-92d4-97d71ca4e3a4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "ae5a398d-d57f-42fd-b763-fc010d79143f",
@@ -24,13 +33,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Run",
+                    "name": "Attack",
                     "type": "Button",
-                    "id": "3c79fd53-b970-4eae-92d4-97d71ca4e3a4",
+                    "id": "ef831c4a-3b94-43fa-8fbd-46af3b57603c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -91,6 +100,17 @@
                 },
                 {
                     "name": "",
+                    "id": "48168a63-34be-4399-931e-40a78d0f0040",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "dca0385f-cf31-470c-b0a8-14fcebca0d41",
                     "path": "<Keyboard>/space",
                     "interactions": "",
@@ -102,12 +122,12 @@
                 },
                 {
                     "name": "",
-                    "id": "48168a63-34be-4399-931e-40a78d0f0040",
-                    "path": "<Keyboard>/leftShift",
-                    "interactions": "Press(behavior=2)",
+                    "id": "64b4346e-de06-4c6e-bf08-f7adb2e27036",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Run",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

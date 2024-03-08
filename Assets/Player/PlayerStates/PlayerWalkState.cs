@@ -2,19 +2,21 @@ using UnityEngine;
 
 public class PlayerWalkState : PlayerBaseState
 {
-    public override void EnterState(PlayerStateManager player) {
-        Debug.Log("Entering Walking");
+    public override void EnterState(Player player)
+    {
+        
     }
 
-    public override void ExitState(PlayerStateManager player) {
-        Debug.Log("Exiting Walking");
+    public override void ExitState(Player player)
+    {
+        
     }
 
-    public override void UpdateState(PlayerStateManager player) {
-        if(player.MoveVector.magnitude == 0){
-            player.SwitchState(player.IdlingState);
-        } else {
-            player.Move();
-        }
+    public override void UpdateState(Player player)
+    {
+        player.Movement();
+        if (player.isSprinting) player.ChangeState(player.runState);
+
+        if (!player.GroundCheck()) player.ChangeState(player.fallState);
     }
 }
