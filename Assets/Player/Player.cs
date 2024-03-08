@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     #region General Object Components References
         Rigidbody rigidBody;
         CapsuleCollider capsuleCollider;
+        AudioSource audioSource;
     #endregion
 
     #region Player Facing Direction
@@ -42,6 +43,7 @@ public class Player : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
+        audioSource = GetComponent<AudioSource>();
         
         playerState = idleState;
         playerState.EnterState(this);
@@ -126,6 +128,7 @@ public class Player : MonoBehaviour
     {
         if(playerState != fallState)
         {
+            audioSource.Play();
             rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
