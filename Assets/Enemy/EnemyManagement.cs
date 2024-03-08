@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public partial class EnemyManagement : MonoBehaviour
 {
     public float healthPoints = 2f;
     public float timerDuration = 1f;
