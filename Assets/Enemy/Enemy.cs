@@ -8,9 +8,9 @@ public class Enemy : MonoBehaviour
         public float pushForce = 3;
         public float pushFriction = 2;
         public float maxKnockbackHeight = 5;
+        public float collisionCooldown = 0.5f;
         public bool isKnockedBack = false;
         public bool isCollisionCooldown = false;
-        public float collisionCooldown = 0.5f;
     #endregion
 
     // On hit, change color and apply force.
@@ -41,9 +41,7 @@ public class Enemy : MonoBehaviour
                     Invoke(nameof(DestroyObject), cooldownTimer); // destroy object after a certain time
                     break;
             }
-
-            // Start the collision cooldown
-            StartCollisionCooldown();
+            StartCollisionCooldown(); // Start the collision cooldown
         }
     }
 
