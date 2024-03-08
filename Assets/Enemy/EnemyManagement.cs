@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class EnemyManagement : MonoBehaviour
 {
-    public float healthPoints = 2f;
-    public float timerDuration = 1f;
-    public float pushForce = 3f;
-    public float friction = 2f;
-    public float maxHeight = 5f;
+    #region Basic Variables
+        public float healthPoints = 2f;
+        public float timerDuration = 1f;
+        public float pushForce = 3f;
+        public float friction = 2f;
+        public float maxHeight = 5f;
+    #endregion
 
     public bool isKnockedBack = false;
     public bool isCollisionCooldown = false;
