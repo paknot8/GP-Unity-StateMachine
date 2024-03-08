@@ -4,16 +4,21 @@ public class PlayerFallState : PlayerBaseState
 {
     public override void EnterState(Player player)
     {
-        Debug.Log("Fall");
+        Debug.Log("Enter Falling state");
     }
 
     public override void ExitState(Player player)
     {
-        Debug.Log("Land");
+        Debug.Log("Exit falling state, landed on ground?");
     }
 
     public override void UpdateState(Player player)
     {
-        if (player.GroundCheck()) player.ChangeState(player.idleState);
+        Debug.Log("Player is falling...");
+        if (player.IsOnGroundCheck())
+        {
+            Debug.Log("Is on ground check to idle?");
+            player.ChangeState(player.walkState);
+        }
     }
 }

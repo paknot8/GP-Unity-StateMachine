@@ -1555,7 +1555,7 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 1
-  m_LookAt: {fileID: 0}
+  m_LookAt: {fileID: 1570387326}
   m_Follow: {fileID: 1570387326}
   m_Lens:
     FieldOfView: 60
@@ -2063,7 +2063,7 @@ GameObject:
   - component: {fileID: 835361264}
   m_Layer: 0
   m_Name: MainCamera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5036,12 +5036,12 @@ MonoBehaviour:
   movement: {x: 0, y: 0}
   isSprinting: 0
   jumpToFallTimer: 0.15
-  animationBlend: 0
-  jumpForce: 0
-  walkSpeed: 2
-  runSpeed: 5
+  jumpForce: 7
+  walkSpeed: 5
+  runSpeed: 10
   speedChangeRate: 5
-  rotationSpeed: 500
+  rotationSpeed: 750
+  groundCheckRange: 0.5
 --- !u!136 &1570387323
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7380,6 +7380,26 @@ PrefabInstance:
     - target: {fileID: 4150428134485707741, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4622730170893605044, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
+      propertyPath: runSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4622730170893605044, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
+      propertyPath: jumpForce
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4622730170893605044, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
+      propertyPath: walkSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4622730170893605044, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
+      propertyPath: rotationSpeed
+      value: 750
+      objectReference: {fileID: 0}
+    - target: {fileID: 4622730170893605044, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
+      propertyPath: groundCheckRange
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5781999630304501517, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
       propertyPath: m_Mesh

@@ -3,36 +3,40 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    Rigidbody rb;
-    CapsuleCollider cc;
+    #region Object Components Reference
+        Rigidbody rigidBody;
+        CapsuleCollider capsuleCollider;
+    #endregion
 
-    [HideInInspector] public Vector2 movement;
-    [HideInInspector] public bool isSprinting = false;
-    public float jumpToFallTimer = 0.15f;
-    [HideInInspector] public float animationBlend;
+    #region Basic Variables
+        [HideInInspector] public Vector2 movement;
+        [HideInInspector] public bool isSprinting = false;
+        public float jumpToFallTimer = 0.15f;
+        public float jumpForce = 7;
+        public float walkSpeed = 5;
+        public float runSpeed = 10;
+        public float speedChangeRate = 5;
+        public float rotationSpeed = 750;
+        public float groundCheckRange = 0.5f;
+    #endregion
 
-    public float jumpForce = 3;
-    public float walkSpeed = 2;
-    public float runSpeed = 5;
-    public float speedChangeRate = 5;
-    public float rotationSpeed = 500;
-
-    public PlayerBaseState playerState;
-    public PlayerIdleState idleState = new PlayerIdleState();
-    public PlayerWalkState walkState = new PlayerWalkState();
-    public PlayerRunState runState = new PlayerRunState();
-    public PlayerFallState fallState = new PlayerFallState();
-    public PlayerHitState hitState = new PlayerHitState();
+    #region Player States
+        public PlayerBaseState playerState;
+        public PlayerIdleState idleState = new PlayerIdleState();
+        public PlayerWalkState walkState = new PlayerWalkState();
+        public PlayerRunState runState = new PlayerRunState();
+        public PlayerFallState fallState = new PlayerFallState();
+        public PlayerHitState hitState = new PlayerHitState();
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        rigidBody = GetComponent<Rigidbody>();
+        capsuleCollider = GetComponent<CapsuleCollider>();
+        
         playerState = idleState;
         playerState.EnterState(this);
-
-        rb = GetComponent<Rigidbody>();
-        cc = GetComponent<CapsuleCollider>();
-
     }
 
     // Update is called once per frame
@@ -43,9 +47,19 @@ public class Player : MonoBehaviour
     
     public void Movement()
     {
-        if (movement == Vector2.zero) ChangeState(idleState);
+        if (movement == Vector2.zero){
+            ChangeState(idleState);
+        }
 
-        float speed = isSprinting ? runSpeed : walkSpeed;
+        float currentSpeed;
+        if (isSprinting)
+        {
+            currentSpeed = runSpeed;
+        }
+        else
+        {
+            currentSpeed = walkSpeed;
+        }
 
         Vector3 direction = new(movement.x, 0, movement.y);
 
@@ -58,13 +72,12 @@ public class Player : MonoBehaviour
 
         Vector3 moveDirection = cameraForward * direction.z + cameraRight * direction.x;
 
-        transform.Translate(speed * Time.deltaTime * moveDirection, Space.World);
+        transform.Translate(currentSpeed * Time.deltaTime * moveDirection, Space.World);
 
         Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
         Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
-
     }
 
     void OnMove(InputValue value)
@@ -74,23 +87,35 @@ public class Player : MonoBehaviour
 
     void OnSprint(InputValue value)
     {
-        if (value.isPressed) isSprinting = true;
-        else isSprinting = false;
+        if (value.isPressed)
+        {
+            isSprinting = true;
+        }
+        else
+        {
+            isSprinting = false;
+        }
     }
 
     void OnJump()
     {
-        if(playerState != fallState) rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        if(playerState != fallState)
+        {
+            rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
     }
 
     void OnAttack()
     {
-        if (playerState != hitState) ChangeState(hitState);
+        if (playerState != hitState)
+        {
+            ChangeState(hitState);
+        }
     }
 
-    public bool GroundCheck()
+    public bool IsOnGroundCheck()
     {
-        return Physics.Raycast(transform.position + cc.center, Vector3.down, cc.bounds.extents.y + 0.1f);
+        return Physics.Raycast(transform.position + capsuleCollider.center, Vector3.down, capsuleCollider.bounds.extents.y + groundCheckRange);
     }
 
     public void ChangeState(PlayerBaseState state)
