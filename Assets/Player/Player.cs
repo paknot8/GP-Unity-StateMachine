@@ -96,7 +96,19 @@ public class Player : MonoBehaviour
 
     public bool IsOnGroundCheck()
     {
-        return Physics.Raycast(transform.position + capsuleCollider.center, Vector3.down, capsuleCollider.bounds.extents.y + groundCheckRange);
+        // Old Code, raycasting not working properly
+        // return Physics.Raycast(transform.position + capsuleCollider.center, Vector3.down, capsuleCollider.bounds.extents.y + groundCheckRange);
+        float sphereRadius = capsuleCollider.radius - 0.01f; // Adjust the radius as needed
+        float sphereDistance = capsuleCollider.bounds.extents.y + groundCheckRange;
+
+        Vector3 sphereCenter = transform.position + capsuleCollider.center;
+
+        // Perform a SphereCast to check for ground
+        if (Physics.SphereCast(sphereCenter, sphereRadius, Vector3.down, out _, sphereDistance))
+        {
+            return true;
+        }
+        return false;
     }
 
     public void ChangeState(PlayerBaseState state)
