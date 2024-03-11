@@ -16,6 +16,7 @@ public class PlayerFallState : PlayerBaseState
     {
         Debug.Log("Player is falling...");
 
+        // Check if the player is on the ground using the IsOnGroundCheck()
         if (player.IsOnGroundCheck())
         {
             Debug.Log("Is on ground check to idle?");

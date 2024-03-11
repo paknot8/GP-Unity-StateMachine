@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
     #region General Object Components References
         Rigidbody rigidBody;
         CapsuleCollider capsuleCollider;
-        AudioSource audioSource;
+        AudioSource jumpSound;
     #endregion
 
     #region Player Facing Direction
@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
-        audioSource = GetComponent<AudioSource>();
+        jumpSound = GetComponent<AudioSource>();
         // On Start Game Default State
         playerState = idleState; 
         playerState.EnterState(this);
@@ -123,7 +123,7 @@ public class Player : MonoBehaviour
         {
             if (playerState != fallState)
             {
-                audioSource.Play();
+                jumpSound.Play();
                 rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             }
         }
