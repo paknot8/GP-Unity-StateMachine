@@ -30,7 +30,6 @@ public class Enemy : MonoBehaviour
                 case 1: UpdateHit(new Color32(70, 0, 0, 200), 0.6f); break;
                 case 0: UpdateHit(new Color32(10, 0, 0, 200), 0.2f); Invoke(nameof(DestroyObject), cooldownTimer); break;
             }
-
             StartCooldown(nameof(isCollisionCooldown));
         }
     }
