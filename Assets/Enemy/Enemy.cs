@@ -3,20 +3,20 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     #region Basic Variables
-    public float healthPoints = 2;
-    public float cooldownTimer = 1;
-    public float pushForce = 3;
-    public float pushFriction = 2;
-    public float maxKnockbackHeight = 5;
-    public float collisionCooldown = 0.5f;
-    protected bool isKnockedBack = false;
-    protected bool isCollisionCooldown = false;
+        public float healthPoints = 2;
+        public float cooldownTimer = 1;
+        public float pushForce = 3;
+        public float pushFriction = 2;
+        public float maxKnockbackHeight = 5;
+        public float collisionCooldown = 0.5f;
+        protected bool isKnockedBack = false;
+        protected bool isCollisionCooldown = false;
     #endregion
 
     protected virtual void Update()
     {
         if (isKnockedBack) KnockBack();
-        MaxHeightAfterHit();
+        MaxHeightAfterCollisionWithWeapon();
     }
 
     protected virtual void OnTriggerEnter(Collider other)
@@ -24,7 +24,6 @@ public class Enemy : MonoBehaviour
         if (other.CompareTag("Weapon") && !isCollisionCooldown)
         {
             ApplyForce();
-
             switch (healthPoints--)
             {
                 case 2: UpdateHit(new Color32(170, 0, 0, 200), 0.8f); break;
@@ -68,7 +67,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    protected void MaxHeightAfterHit()
+    protected void MaxHeightAfterCollisionWithWeapon()
     {
         if (transform.position.y > maxKnockbackHeight)
             transform.position = new Vector3(transform.position.x, maxKnockbackHeight, transform.position.z);

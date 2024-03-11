@@ -34,7 +34,6 @@ public class Player : MonoBehaviour
         public PlayerWalkState walkState = new PlayerWalkState();
         public PlayerRunState runState = new PlayerRunState();
         public PlayerFallState fallState = new PlayerFallState();
-        public PlayerHitState hitState = new PlayerHitState();
     #endregion
 
     void Start()
@@ -128,7 +127,5 @@ public class Player : MonoBehaviour
                 rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             }
         }
-
-        void OnAttack() => ChangeState(playerState != hitState ? hitState : null);
     #endregion
 }
