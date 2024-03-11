@@ -1,4 +1,3 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -38,78 +37,79 @@ public class Player : MonoBehaviour
         public PlayerHitState hitState = new PlayerHitState();
     #endregion
 
-    // Start is called before the first frame update
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
         audioSource = GetComponent<AudioSource>();
-        
-        playerState = idleState;
+        // On Start Game Default State
+        playerState = idleState; 
         playerState.EnterState(this);
     }
 
-    // Update is called once per frame
     void Update()
     {
         playerState.UpdateState(this);
     }
-    
-    public void Movement()
-    {
-        if (movement == Vector2.zero){
-            ChangeState(idleState);
-        }
 
-        if (isSprinting){
-            currentSpeed = runSpeed;
-        } else {
-            currentSpeed = walkSpeed;
-        }       
-        FaceDirection(); 
-    }
-
-    public void FaceDirection(){
-        cameraForward = Camera.main.transform.forward;
-        cameraRight = Camera.main.transform.right;
-        direction = new Vector3(movement.x, 0, movement.y); 
-        cameraForward.y = 0;
-        cameraRight.y = 0;
-        cameraForward = cameraForward.normalized;
-        cameraRight = cameraRight.normalized;
-
-        // Get the movement direction
-        Vector3 moveToDirection = cameraForward * direction.z + cameraRight * direction.x;
-
-        // Translate the current movement move dependent on the space of the world environment.
-        transform.Translate(currentSpeed * Time.deltaTime * moveToDirection, Space.World);
-
-        // Turn to direction
-        Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
-
-        // Look forward to the direction.
-        Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
-
-        // Do the rotation
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
-    }
-
-    public bool IsOnGroundCheck()
-    {
-        // Old Code, raycasting not working properly
-        // return Physics.Raycast(transform.position + capsuleCollider.center, Vector3.down, capsuleCollider.bounds.extents.y + groundCheckRange);
-        float sphereRadius = capsuleCollider.radius - 0.01f; // Adjust the radius as needed
-        float sphereDistance = capsuleCollider.bounds.extents.y + groundCheckRange;
-
-        Vector3 sphereCenter = transform.position + capsuleCollider.center;
-
-        // Perform a SphereCast to check for ground
-        if (Physics.SphereCast(sphereCenter, sphereRadius, Vector3.down, out _, sphereDistance))
+    #region Movement and Direction
+        public void Movement()
         {
-            return true;
+            // If there is no movement input, transition to the idle state
+            if (movement == Vector2.zero)
+            {
+                ChangeState(idleState);
+            }
+
+            // Determine the current speed based on whether the player is sprinting or walking
+            currentSpeed = isSprinting ? runSpeed : walkSpeed;
+
+            // Update the player's facing direction based on the camera and input
+            FaceDirection();
         }
-        return false;
-    }
+
+        public void FaceDirection()
+        {
+            SetCameraVectors();
+            CalculateMoveDirection();
+            MovePlayer();
+            RotatePlayer();
+        }
+
+        private void SetCameraVectors()
+        {
+            // Get normalized forward and right vectors of the camera
+            cameraForward = Camera.main.transform.forward.normalized;
+            cameraRight = Camera.main.transform.right.normalized;
+        }
+
+        private void CalculateMoveDirection()
+        {
+            // Create a 3D vector using the horizontal and vertical input from the movement
+            direction = new Vector3(movement.x, 0, movement.y);
+        }
+
+        private void MovePlayer()
+        {
+            // Calculate the movement direction in world space
+            Vector3 moveToDirection = cameraForward * direction.z + cameraRight * direction.x;
+
+            // Move the player in the calculated direction with the current speed
+            transform.Translate(currentSpeed * Time.deltaTime * moveToDirection, Space.World);
+        }
+
+        private void RotatePlayer()
+        {
+            // Calculate the look direction based on the camera's rotation
+            Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
+
+            // Rotate the player towards the calculated look direction
+            Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+        }
+    #endregion
+
+    public bool IsOnGroundCheck() => Physics.SphereCast(transform.position + capsuleCollider.center, capsuleCollider.radius - 0.01f, Vector3.down, out _, capsuleCollider.bounds.extents.y + groundCheckRange);
 
     public void ChangeState(PlayerBaseState state)
     {
@@ -118,121 +118,20 @@ public class Player : MonoBehaviour
         playerState.EnterState(this);
     }
 
-    #region Player Controls
-    void OnMove(InputValue value)
-    {
-        movement = value.Get<Vector2>();
-    }
+    #region New Input System Controls
+        void OnMove(InputValue value) => movement = value.Get<Vector2>();
 
-    void OnSprint(InputValue value)
-    {
-        if (value.isPressed)
-        {
-            isSprinting = true;
-        }
-        else
-        {
-            isSprinting = false;
-        }
-    }
+        void OnSprint(InputValue value) => isSprinting = value.isPressed;
 
-    void OnJump()
-    {
-        if(playerState != fallState)
+        void OnJump()
         {
-            audioSource.Play();
-            rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            if (playerState != fallState)
+            {
+                audioSource.Play();
+                rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            }
         }
-    }
 
-    void OnAttack()
-    {
-        if (playerState != hitState)
-        {
-            ChangeState(hitState);
-        }
-    }
+        void OnAttack() => ChangeState(playerState != hitState ? hitState : null);
     #endregion
 }
-
-
-
-
-// using UnityEngine;
-// using UnityEngine.InputSystem;
-
-// public partial class PlayerStateManager : MonoBehaviour
-// {
-//     private void Awake(){
-        
-//         Controller = GetComponent<CharacterController>();
-//         Input = GetComponent<PlayerInput>();
-//         PlayerSpeed = 5f;
-//         PlayerSpeedMultiplier = 2f;
-//         PlayerRotateSpeed = 750;
-//         _gravityVector = new Vector3(0, -1F, 0);
-//     }
-
-//     void Start(){
-//         PlayerCurrentState = IdlingState; // start with this state
-//         PlayerCurrentState.EnterState(this);
-//     }
-
-//     void Update()
-//     {
-//         if(PlayerCurrentState != FallingState && PlayerCurrentState != JumpingState && !Controller.isGrounded)
-//         {
-//             SwitchState(FallingState);
-//         }
-//         PlayerCurrentState.UpdateState(this);
-//         ApplyGravity();
-//     }
-
-//     #region Movement
-//     public void SwitchState(PlayerBaseState state){
-//         PlayerCurrentState.ExitState(this);
-//         PlayerCurrentState = state;
-//         state.EnterState(this);
-//     }
-
-//     public void ApplyGravity()
-//     {
-//         Controller.Move(PlayerSpeed * Time.deltaTime * MoveVector);
-//         Controller.Move((_gravityVector += Physics.gravity * Time.deltaTime) * Time.deltaTime);
-//     }
-
-//     public void Move()
-//     {
-//         Controller.Move(PlayerSpeed * Time.deltaTime * MoveVector);
-//         RotateTowardsVector(); // when player is moving it updates the rotation;
-//     }
-
-//     public void Run(){
-//         Controller.Move(PlayerSpeed * PlayerSpeedMultiplier * Time.deltaTime * MoveVector);
-//         RotateTowardsVector();
-//     }
-
-//     public void RotateTowardsVector()
-//     {
-//         Vector3 xzDirection = new(MoveVector.x, 0, MoveVector.z);
-
-//         if (xzDirection.magnitude != 0)
-//         {
-//             Quaternion rotation = Quaternion.LookRotation(xzDirection);
-//             transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, PlayerRotateSpeed * Time.deltaTime);
-//         }
-//     }
-//     #endregion
-
-//     #region  Jumping
-//     public void Jump(){
-//         Vector3 goUp = new(0, MoveVector.y, 0);
-//         Controller.Move(goUp);
-//     }
-
-//     public void ResetVerticalMovement()
-//     {
-//         MoveVector.y = 0;
-//     }
-// #endregion
-// }
