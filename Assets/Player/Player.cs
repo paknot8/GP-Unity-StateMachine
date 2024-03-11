@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
         // On Start Game Default State
         playerState = idleState; 
         playerState.EnterState(this);
+        jumpSound.volume = 0.1f;
     }
 
     void Update()
