@@ -15,6 +15,7 @@ public class PlayerFallState : PlayerBaseState
     public override void UpdateState(Player player)
     {
         Debug.Log("Player is falling...");
+
         if (player.IsOnGroundCheck())
         {
             Debug.Log("Is on ground check to idle?");

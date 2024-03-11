@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
         public float groundCheckRange = 0.5f;
     #endregion
 
-    #region Player States
+    #region Object References to instance of Player States 
         public PlayerBaseState playerState;
         public PlayerIdleState idleState = new PlayerIdleState();
         public PlayerWalkState walkState = new PlayerWalkState();
@@ -76,18 +76,15 @@ public class Player : MonoBehaviour
             RotatePlayer();
         }
 
-        private void SetCameraVectors()
+        // Get normalized forward and right vectors of the camera
+        private void SetCameraVectors() 
         {
-            // Get normalized forward and right vectors of the camera
             cameraForward = Camera.main.transform.forward.normalized;
             cameraRight = Camera.main.transform.right.normalized;
         }
 
-        private void CalculateMoveDirection()
-        {
-            // Create a 3D vector using the horizontal and vertical input from the movement
-            direction = new Vector3(movement.x, 0, movement.y);
-        }
+        // Create a 3D vector using the horizontal and vertical input from the movement
+        private void CalculateMoveDirection() => direction = new Vector3(movement.x, 0, movement.y);
 
         private void MovePlayer()
         {
