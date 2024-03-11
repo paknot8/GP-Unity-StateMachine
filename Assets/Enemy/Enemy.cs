@@ -3,113 +3,77 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     #region Basic Variables
-        public float healthPoints = 2;
-        public float cooldownTimer = 1;
-        public float pushForce = 3;
-        public float pushFriction = 2;
-        public float maxKnockbackHeight = 5;
-        public float collisionCooldown = 0.5f;
-        public bool isKnockedBack = false;
-        public bool isCollisionCooldown = false;
+    public float healthPoints = 2;
+    public float cooldownTimer = 1;
+    public float pushForce = 3;
+    public float pushFriction = 2;
+    public float maxKnockbackHeight = 5;
+    public float collisionCooldown = 0.5f;
+    protected bool isKnockedBack = false;
+    protected bool isCollisionCooldown = false;
     #endregion
 
-    // On hit, change color and apply force.
-    void OnTriggerEnter(Collider other)
+    protected virtual void Update()
     {
-        if (other.gameObject.CompareTag("Weapon") && !isCollisionCooldown)
+        if (isKnockedBack) KnockBack();
+        MaxHeightAfterHit();
+    }
+
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Weapon") && !isCollisionCooldown)
         {
             ApplyForce();
-            switch (healthPoints)
+
+            switch (healthPoints--)
             {
-                case 2:
-                    healthPoints--;
-                    this.gameObject.GetComponent<MeshRenderer>().material.color = new Color32(170, 0, 0, 200);
-                    transform.localScale *= 0.8f; // Make object smaller
-                    print("Hit " + healthPoints);
-                    break;
-                case 1:
-                    healthPoints--;
-                    this.gameObject.GetComponent<MeshRenderer>().material.color = new Color32(70, 0, 0, 200);
-                    transform.localScale *= 0.6f;
-                    print("Hit " + healthPoints);
-                    break;
-                case 0:
-                    healthPoints = 2;
-                    this.gameObject.GetComponent<MeshRenderer>().material.color = new Color32(10, 0, 0, 200);
-                    transform.localScale *= 0.2f;
-                    print("Hit " + healthPoints);
-                    Invoke(nameof(DestroyObject), cooldownTimer); // destroy object after a certain time
-                    break;
+                case 2: UpdateHit(new Color32(170, 0, 0, 200), 0.8f); break;
+                case 1: UpdateHit(new Color32(70, 0, 0, 200), 0.6f); break;
+                case 0: UpdateHit(new Color32(10, 0, 0, 200), 0.2f); Invoke(nameof(DestroyObject), cooldownTimer); break;
             }
-            StartCollisionCooldown(); // Start the collision cooldown
+
+            StartCooldown(nameof(isCollisionCooldown));
         }
     }
 
-    private void StartCollisionCooldown()
+    protected void UpdateHit(Color32 color, float scaleMultiplier)
     {
-        isCollisionCooldown = true;
-        Invoke(nameof(EndCollisionCooldown), collisionCooldown);
+        GetComponent<MeshRenderer>().material.color = color;
+        transform.localScale *= scaleMultiplier;
+        print("Hit " + healthPoints);
     }
 
-    private void EndCollisionCooldown()
-    {
-        isCollisionCooldown = false;
-    }
+    protected void StartCooldown(string cooldownType) => Invoke(nameof(EndCooldown), cooldownType == nameof(isCollisionCooldown) ? collisionCooldown : cooldownTimer);
 
-    private void ApplyForce()
+    protected void EndCooldown() => isCollisionCooldown = false;
+
+    protected void ApplyForce()
     {
-        // Apply a force to push the enemy back
-        Vector3 pushDirection = transform.forward; // Adjust the direction as needed
+        Vector3 pushDirection = transform.forward;
         GetComponent<Rigidbody>().AddForce(pushDirection * pushForce, ForceMode.VelocityChange);
         isKnockedBack = true;
     }
 
-    private void DestroyObject()
-    {
-        // Destroy the GameObject after the specified duration
-        Destroy(gameObject);
-    }
+    protected void DestroyObject() => Destroy(gameObject);
 
-    private void Update()
+    protected void KnockBack()
     {
-        KnockBack();        
-    }
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.velocity -= pushFriction * Time.deltaTime * rb.velocity;
 
-    private void KnockBack()
-    {
-        if (isKnockedBack)
+        if (rb.velocity.magnitude < 0.1f)
         {
-            // Apply friction to decelerate the enemy
-            GetComponent<Rigidbody>().velocity -= pushFriction * Time.deltaTime * GetComponent<Rigidbody>().velocity;
-
-            // Check if the velocity is low enough to stop
-            if (GetComponent<Rigidbody>().velocity.magnitude < 0.1f)
-            {
-                GetComponent<Rigidbody>().velocity = Vector3.zero;
-                isKnockedBack = false;
-            }
+            rb.velocity = Vector3.zero;
+            isKnockedBack = false;
         }
-        MaxHeightAfterHit();
     }
 
-    private void MaxHeightAfterHit()
+    protected void MaxHeightAfterHit()
     {
-        // Restrict the enemy's Y position
         if (transform.position.y > maxKnockbackHeight)
-        {
-            Vector3 newPos = transform.position;
-            newPos.y = maxKnockbackHeight;
-            transform.position = newPos;
-        }
+            transform.position = new Vector3(transform.position.x, maxKnockbackHeight, transform.position.z);
     }
 
-    // void OnTriggerStay(Collider other)
-    // {
-    //     Debug.Log("Staying in the collision...");
-    // }
-
-    // void OnTriggerExit(Collider other)
-    // {
-    //     Debug.Log("Exiting collision...");
-    // }
+    protected virtual void OnTriggerStay(Collider other) { }
+    protected virtual void OnTriggerExit(Collider other) { }
 }
