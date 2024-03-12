@@ -9,14 +9,16 @@ public class Player : MonoBehaviour
         public AudioSource jumpSound;
     #endregion
 
-    #region Player Facing Direction
+    #region Player Facing Direction and Movements Vectors
+        // --- Vector 3 --- //
         [HideInInspector] public Vector3 direction;
         [HideInInspector] public Vector3 cameraForward;
         [HideInInspector] public Vector3 cameraRight;
+        //  --- Vector 2 ---  //
+        [HideInInspector] public Vector2 movement;
     #endregion
 
     #region Basic Variables
-        [HideInInspector] public Vector2 movement;
         [HideInInspector] public bool isSprinting = false;
         public float jumpForce = 7;
         public float currentSpeed;
@@ -47,37 +49,30 @@ public class Player : MonoBehaviour
         jumpSound.volume = 0.1f;
     }
 
-    void Update()
-    {
-        playerState.UpdateState(this); // Checking what state it is the whole time.
-    }
+    // Checking what state it is the whole time.
+    void Update() => playerState.UpdateState(this); 
 
-    #region Movement and Direction
+    #region Movement and Direction for player to Face Forward
         public void PlayerMovementCheck()
         {
             // If there is no movement input, transition to the idle state
             if (movement == Vector2.zero)
-            {
                 ChangeState(idleState);
-            }
 
-            // Determine the current speed based on whether the player is sprinting or walking
             currentSpeed = isSprinting ? runSpeed : walkSpeed;
-
-            // Update the player's facing direction based on the camera and input
             FaceDirection();
         }
 
         public void FaceDirection()
         {
-            SetCameraVectors();
+            SetCameraVectorsAndNormalize();
             CalculateMoveDirection();
             MovePlayer();
             RotatePlayer();
         }
 
         // Get normalized forward and right vectors of the camera
-        private void SetCameraVectors() 
+        private void SetCameraVectorsAndNormalize() 
         {
             cameraForward = Camera.main.transform.forward.normalized;
             cameraRight = Camera.main.transform.right.normalized;
@@ -88,11 +83,8 @@ public class Player : MonoBehaviour
 
         private void MovePlayer()
         {
-            // Calculate the movement direction in world space
-            Vector3 moveToDirection = cameraForward * direction.z + cameraRight * direction.x;
-
-            // Move the player in the calculated direction with the current speed
-            transform.Translate(currentSpeed * Time.deltaTime * moveToDirection, Space.World);
+            Vector3 moveToDirection = cameraForward * direction.z + cameraRight * direction.x; // Calculate the movement direction in world space
+            transform.Translate(currentSpeed * Time.deltaTime * moveToDirection, Space.World); // Move the player in the calculated direction with the current speed
         }
 
         private void RotatePlayer()
@@ -107,12 +99,12 @@ public class Player : MonoBehaviour
     #endregion
 
     #region General Methods
-        //public bool IsGrounded() => Physics.Raycast(transform.position + capsuleCollider.center, Vector3.down, capsuleCollider.bounds.extents.y + 0.1f);
         public bool IsGrounded()
         {
             float sphereRadius = capsuleCollider.radius - 0.01f; // Adjust the offset as needed
             float sphereCastDistance = capsuleCollider.bounds.extents.y + 0.2f; // Adjust the distance as needed
 
+            // Cast sphere downwards from the center of the capsule collider (check collision on ground)
             return Physics.SphereCast(transform.position + capsuleCollider.center, sphereRadius, Vector3.down, out _, sphereCastDistance);
         }
         
