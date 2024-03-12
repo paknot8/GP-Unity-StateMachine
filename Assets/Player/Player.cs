@@ -4,18 +4,22 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     #region General Object Components References
-        public Rigidbody rigidBody;
-        public CapsuleCollider capsuleCollider;
-        public AudioSource jumpSound;
+        [HideInInspector] public Rigidbody rigidBody;
+        [HideInInspector] public CapsuleCollider capsuleCollider;
+        [HideInInspector] public AudioSource jumpSound;
     #endregion
 
-    #region Player Facing Direction and Movements Vectors
+    #region Player Movements
         // --- Vector 3 --- //
         [HideInInspector] public Vector3 direction;
+        [HideInInspector] public Vector3 moveToDirection;
+        [HideInInspector] public Vector3 lookToDirection;
         [HideInInspector] public Vector3 cameraForward;
         [HideInInspector] public Vector3 cameraRight;
         //  --- Vector 2 ---  //
         [HideInInspector] public Vector2 movement;
+        //  --- Quaternion ---  //
+        [HideInInspector] public Quaternion rotation;
     #endregion
 
     #region Basic Variables
@@ -54,7 +58,7 @@ public class Player : MonoBehaviour
     void Update() => playerState.UpdateState(this); 
 
     #region Movement and Direction for player to Face Forward
-        public void PlayerMovementCheck()
+        public void PlayerMovement()
         {
             // If there is no movement input, transition to the idle state
             if (movement == Vector2.zero)
@@ -68,7 +72,7 @@ public class Player : MonoBehaviour
         {
             SetCameraVectorsAndNormalize();
             CalculateMoveDirection();
-            MovePlayer();
+            MovementOfPlayer();
             RotatePlayer();
         }
 
@@ -82,22 +86,22 @@ public class Player : MonoBehaviour
         // Create a 3D vector using the horizontal and vertical input from the movement
         private void CalculateMoveDirection() => direction = new Vector3(movement.x, 0, movement.y);
 
-        private void MovePlayer()
+        private void MovementOfPlayer()
         {
-            Vector3 moveToDirection = cameraForward * direction.z + cameraRight * direction.x; // Calculate the movement direction in world space
+            moveToDirection = cameraForward * direction.z + cameraRight * direction.x; // Calculate the movement direction in world space
             transform.Translate(currentSpeed * Time.deltaTime * moveToDirection, Space.World); // Move the player in the calculated direction with the current speed
         }
 
         private void RotatePlayer()
         {
             // Calculate the look direction based on the camera's rotation
-            Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
+            lookToDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
 
             // Check if lookDirection is close to zero, Skip rotation when lookDirection is close to zero
-            if (lookDirection.sqrMagnitude < 0.0001f) return; 
+            if (lookToDirection.sqrMagnitude < 0.0001f) return; 
 
             // Rotate the player towards the calculated look direction
-            Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+            rotation = Quaternion.LookRotation(lookToDirection, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
         }
     #endregion
