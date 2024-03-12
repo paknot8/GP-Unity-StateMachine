@@ -16,6 +16,7 @@ public class PlayerWalkState : PlayerBaseState
     {
         player.PlayerMovementCheck();
 
+        player.GetComponent<MeshRenderer>().material.color = new Color32(45, 115, 250, 255); // Dark Blue
         if (player.isSprinting)
             player.ChangeState(player.runState);
 

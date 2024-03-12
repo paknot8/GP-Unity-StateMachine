@@ -131,10 +131,16 @@ public class Player : MonoBehaviour
         playerState.EnterState(this);
     }
 
-    #region New Input System Controls
-        void OnMove(InputValue value) => movement = value.Get<Vector2>();
 
-        void OnSprint(InputValue value) => isSprinting = value.isPressed;
+
+    #region New Input System Controls
+        void OnMove(InputValue value){
+            movement = value.Get<Vector2>();
+        }
+
+        void OnSprint(InputValue value) {
+            isSprinting = value.isPressed;
+        }
 
         void OnJump()
         {

@@ -18,6 +18,10 @@ public class PlayerFallState : PlayerBaseState
         {
             player.ChangeState(player.idleState);
             player.jumpToFallDelta = player.jumpToFallTimer;
+        } 
+        else 
+        {
+            player.GetComponent<MeshRenderer>().material.color = new Color32(250, 99, 45, 255); // Orange
         }
     }
 }
