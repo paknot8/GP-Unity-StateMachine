@@ -8,7 +8,7 @@ public class PlayerJumpState : PlayerBaseState
             player.jumpSound.Play();
             player.rigidBody.AddForce(Vector3.up * player.jumpForce, ForceMode.Impulse);
             player.GetComponent<MeshRenderer>().material.color = new Color32(250, 99, 45, 255); // Orange
-        } 
+        }
     }
 
     public override void ExitState(Player player){}

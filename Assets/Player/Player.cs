@@ -92,6 +92,9 @@ public class Player : MonoBehaviour
             // Calculate the look direction based on the camera's rotation
             Vector3 lookDirection = Quaternion.Euler(0, Camera.main.transform.eulerAngles.y, 0) * direction;
 
+            // Check if lookDirection is close to zero, Skip rotation when lookDirection is close to zero
+            if (lookDirection.sqrMagnitude < 0.0001f) return; 
+
             // Rotate the player towards the calculated look direction
             Quaternion rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
