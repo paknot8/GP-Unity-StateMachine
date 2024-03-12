@@ -14,7 +14,7 @@ public class PlayerWalkState : PlayerBaseState
 
     public override void UpdateState(Player player)
     {
-        player.Movement();
+        player.PlayerMovementCheck();
 
         if (player.isSprinting)
             player.ChangeState(player.runState);

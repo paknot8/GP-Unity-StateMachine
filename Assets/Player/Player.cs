@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
         public float speedChangeRate = 5;
         public float rotationSpeed = 750;
         public float groundCheckRange = 0.5f;
+        [HideInInspector] public float jumpToFallDelta;
     #endregion
 
     #region Object References to instance of Player States 
@@ -53,7 +54,7 @@ public class Player : MonoBehaviour
     }
 
     #region Movement and Direction
-        public void Movement()
+        public void PlayerMovementCheck()
         {
             // If there is no movement input, transition to the idle state
             if (movement == Vector2.zero)
@@ -108,6 +109,21 @@ public class Player : MonoBehaviour
 
     public bool IsOnGroundCheck() => Physics.SphereCast(transform.position + capsuleCollider.center, capsuleCollider.radius - 0.01f, Vector3.down, out _, capsuleCollider.bounds.extents.y + groundCheckRange);
 
+    public void FallCheck()
+    {
+        if(!IsOnGroundCheck())
+        {
+            if(jumpToFallDelta > 0) 
+            {
+                jumpToFallDelta -= Time.deltaTime;
+            }
+            else
+            {
+                ChangeState(fallState);
+            }
+        }
+    }
+    
     public void ChangeState(PlayerBaseState state)
     {
         playerState.ExitState(this);
