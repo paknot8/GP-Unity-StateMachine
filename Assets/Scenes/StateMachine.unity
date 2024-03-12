@@ -4856,10 +4856,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.61238766
-  m_Height: 2.2316098
+  m_Radius: 0.50000006
+  m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0.06025815, z: -0.11238766}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1570387324
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6988,7 +6988,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1461725957}
     - target: {fileID: 5880799439180369651, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
+      propertyPath: m_Height
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880799439180369651, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
+      propertyPath: m_Radius
+      value: 0.50000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880799439180369651, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880799439180369651, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
+      propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880799439180369651, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
+      propertyPath: m_Center.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880799439180369651, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
       propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880799439180369651, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
+      propertyPath: m_ProvidesContacts
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
