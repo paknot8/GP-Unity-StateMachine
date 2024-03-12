@@ -4,9 +4,9 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     #region General Object Components References
-        Rigidbody rigidBody;
-        CapsuleCollider capsuleCollider;
-        AudioSource jumpSound;
+        public Rigidbody rigidBody;
+        public CapsuleCollider capsuleCollider;
+        public AudioSource jumpSound;
     #endregion
 
     #region Player Facing Direction
@@ -18,7 +18,6 @@ public class Player : MonoBehaviour
     #region Basic Variables
         [HideInInspector] public Vector2 movement;
         [HideInInspector] public bool isSprinting = false;
-        public float jumpToFallTimer = 0.15f;
         public float jumpForce = 7;
         public float currentSpeed;
         public float walkSpeed = 5;
@@ -26,15 +25,15 @@ public class Player : MonoBehaviour
         public float speedChangeRate = 5;
         public float rotationSpeed = 750;
         public float groundCheckRange = 0.5f;
-        [HideInInspector] public float jumpToFallDelta;
     #endregion
 
     #region Object References to instance of Player States 
         public PlayerBaseState playerState;
-        public PlayerIdleState idleState = new PlayerIdleState();
-        public PlayerWalkState walkState = new PlayerWalkState();
-        public PlayerRunState runState = new PlayerRunState();
-        public PlayerFallState fallState = new PlayerFallState();
+        public PlayerIdleState idleState = new();
+        public PlayerWalkState walkState = new();
+        public PlayerRunState runState = new();
+        public PlayerFallState fallState = new();
+        public PlayerJumpState jumpState = new();
     #endregion
 
     void Start()
@@ -50,7 +49,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        playerState.UpdateState(this);
+        playerState.UpdateState(this); // Checking what state it is the whole time.
     }
 
     #region Movement and Direction
@@ -107,47 +106,25 @@ public class Player : MonoBehaviour
         }
     #endregion
 
-    public bool IsOnGroundCheck() => Physics.SphereCast(transform.position + capsuleCollider.center, capsuleCollider.radius - 0.01f, Vector3.down, out _, capsuleCollider.bounds.extents.y + groundCheckRange);
+    #region General Methods
+        public bool IsGrounded() => Physics.Raycast(transform.position + capsuleCollider.center, Vector3.down, capsuleCollider.bounds.extents.y + 0.1f);
 
-    public void FallCheck()
-    {
-        if(!IsOnGroundCheck())
+        public void ChangeState(PlayerBaseState state)
         {
-            if(jumpToFallDelta > 0) 
-            {
-                jumpToFallDelta -= Time.deltaTime;
-            }
-            else
-            {
-                ChangeState(fallState);
-            }
+            playerState.ExitState(this);
+            playerState = state;
+            playerState.EnterState(this);
         }
-    }
-    
-    public void ChangeState(PlayerBaseState state)
-    {
-        playerState.ExitState(this);
-        playerState = state;
-        playerState.EnterState(this);
-    }
-
-
+    #endregion
 
     #region New Input System Controls
-        void OnMove(InputValue value){
-            movement = value.Get<Vector2>();
-        }
+        void OnMove(InputValue value) => movement = value.Get<Vector2>();
 
-        void OnSprint(InputValue value) {
-            isSprinting = value.isPressed;
-        }
+        void OnSprint(InputValue value) => isSprinting = value.isPressed;
 
-        void OnJump()
-        {
-            if (playerState != fallState)
-            {
-                jumpSound.Play();
-                rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        void OnJump(InputValue value){
+            if(value.isPressed){
+                ChangeState(jumpState);
             }
         }
     #endregion

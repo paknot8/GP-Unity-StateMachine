@@ -5,6 +5,7 @@ public class PlayerFallState : PlayerBaseState
     public override void EnterState(Player player)
     {
         Debug.Log("Enter Falling state");
+        player.GetComponent<MeshRenderer>().material.color = new Color32(250, 99, 45, 255); // Orange
     }
 
     public override void ExitState(Player player)
@@ -14,14 +15,8 @@ public class PlayerFallState : PlayerBaseState
 
     public override void UpdateState(Player player)
     {
-        if (player.IsOnGroundCheck())
-        {
+        if(player.IsGrounded()){
             player.ChangeState(player.idleState);
-            player.jumpToFallDelta = player.jumpToFallTimer;
-        } 
-        else 
-        {
-            player.GetComponent<MeshRenderer>().material.color = new Color32(250, 99, 45, 255); // Orange
         }
     }
 }
