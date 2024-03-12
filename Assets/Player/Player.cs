@@ -107,8 +107,15 @@ public class Player : MonoBehaviour
     #endregion
 
     #region General Methods
-        public bool IsGrounded() => Physics.Raycast(transform.position + capsuleCollider.center, Vector3.down, capsuleCollider.bounds.extents.y + 0.1f);
+        //public bool IsGrounded() => Physics.Raycast(transform.position + capsuleCollider.center, Vector3.down, capsuleCollider.bounds.extents.y + 0.1f);
+        public bool IsGrounded()
+        {
+            float sphereRadius = capsuleCollider.radius - 0.01f; // Adjust the offset as needed
+            float sphereCastDistance = capsuleCollider.bounds.extents.y + 0.2f; // Adjust the distance as needed
 
+            return Physics.SphereCast(transform.position + capsuleCollider.center, sphereRadius, Vector3.down, out _, sphereCastDistance);
+        }
+        
         public void ChangeState(PlayerBaseState state)
         {
             playerState.ExitState(this);

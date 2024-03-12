@@ -10,11 +10,12 @@ public class PlayerFallState : PlayerBaseState
 
     public override void ExitState(Player player)
     {
-        Debug.Log("Exit falling state, landed on ground?");
+        Debug.Log("Exit falling state, landed on ground");
     }
 
     public override void UpdateState(Player player)
     {
+        Debug.Log("Update currently falling state.");
         if(player.IsGrounded()){
             player.ChangeState(player.idleState);
         }
