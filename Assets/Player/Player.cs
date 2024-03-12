@@ -20,13 +20,13 @@ public class Player : MonoBehaviour
 
     #region Basic Variables
         [HideInInspector] public bool isSprinting = false;
-        public float jumpForce = 7;
-        public float forwardJumpForce = 5f;
-        public float currentSpeed;
-        public float walkSpeed = 5;
-        public float runSpeed = 10;
-        public float speedChangeRate = 5;
-        public float rotationSpeed = 750;
+        public float jumpForce = 7f;
+        public float forwardJumpForce = 4f;
+        public float currentSpeed = 0f;
+        public float walkSpeed = 4f;
+        public float runSpeed = 10f;
+        public float speedChangeRate = 5f;
+        public float rotationSpeed = 750f;
         public float groundCheckRange = 0.5f;
     #endregion
 
@@ -126,7 +126,7 @@ public class Player : MonoBehaviour
         void OnSprint(InputValue value) => isSprinting = value.isPressed;
 
         void OnJump(InputValue value){
-            if(value.isPressed){
+            if(value.isPressed && isSprinting){
                 ChangeState(jumpState);
             }
         }

@@ -2786,7 +2786,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthPoints: 3
-  cooldownTimer: 1
+  cooldownTimer: 2
   pushForce: 3
   pushFriction: 2
   maxKnockbackHeight: 5
@@ -4831,8 +4831,9 @@ MonoBehaviour:
   movement: {x: 0, y: 0}
   isSprinting: 0
   jumpForce: 7
+  forwardJumpForce: 2
   currentSpeed: 0
-  walkSpeed: 5
+  walkSpeed: 4
   runSpeed: 10
   speedChangeRate: 5
   rotationSpeed: 750
@@ -6973,11 +6974,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4622730170893605044, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
       propertyPath: walkSpeed
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4622730170893605044, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
       propertyPath: rotationSpeed
       value: 750
+      objectReference: {fileID: 0}
+    - target: {fileID: 4622730170893605044, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
+      propertyPath: forwardJumpForce
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4622730170893605044, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
       propertyPath: groundCheckRange
