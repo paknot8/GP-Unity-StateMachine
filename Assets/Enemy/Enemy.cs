@@ -3,8 +3,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     #region Basic Variables
-        public float healthPoints = 2;
-        public float cooldownTimer = 1;
+        public float healthPoints = 3;
+        public float cooldownTimer = 2;
         public float pushForce = 3;
         public float pushFriction = 2;
         public float maxKnockbackHeight = 5;
@@ -24,6 +24,7 @@ public class Enemy : MonoBehaviour
         if (other.CompareTag("Weapon") && !isCollisionCooldown)
         {
             ApplyForce();
+            healthPoints--;
             switch (healthPoints)
             {
                 case 2: UpdateHit(new Color32(170, 0, 0, 200), 0.8f); break;
@@ -38,7 +39,13 @@ public class Enemy : MonoBehaviour
     {
         GetComponent<MeshRenderer>().material.color = color;
         transform.localScale *= scaleMultiplier;
-        print("Damage taken Enemy HP = " + healthPoints--);
+
+        switch (healthPoints)
+        {
+            case < 0: Debug.Log("Enemy Has been Defeated!"); break;
+            default: Debug.Log("Damage taken! Enemy HP = " + healthPoints); break;
+        }
+
     }
 
     protected void StartCooldown(string cooldownType) => Invoke(nameof(EndCooldown), cooldownType == nameof(isCollisionCooldown) ? collisionCooldown : cooldownTimer);
