@@ -2785,12 +2785,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d728264512e010e4fb8c052cb7c06f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthPoints: 2
+  healthPoints: 3
   cooldownTimer: 1
-  pushForce: 5
+  pushForce: 3
   pushFriction: 2
   maxKnockbackHeight: 5
-  collisionCooldown: 1
+  collisionCooldown: 0.5
 --- !u!54 &1303306086
 Rigidbody:
   m_ObjectHideFlags: 0

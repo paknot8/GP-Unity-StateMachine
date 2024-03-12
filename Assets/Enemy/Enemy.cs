@@ -25,13 +25,13 @@ public class Enemy : MonoBehaviour
         if (other.CompareTag("Weapon") && !isCollisionCooldown)
         {
             ApplyForce();
-            switch (healthPoints--)
+            switch (healthPoints)
             {
                 case 2: UpdateHit(new Color32(170, 0, 0, 200), 0.8f); break;
                 case 1: UpdateHit(new Color32(70, 0, 0, 200), 0.6f); break;
                 case 0: UpdateHit(new Color32(10, 0, 0, 200), 0.2f); Invoke(nameof(DestroyObject), cooldownTimer); break;
             }
-            //StartCooldown(nameof(isCollisionCooldown));
+            // StartCooldown(nameof(isCollisionCooldown)); // Old Code
             StartCoroutine(StartCooldown(collisionCooldown, nameof(isCollisionCooldown)));
         }
     }
@@ -40,11 +40,8 @@ public class Enemy : MonoBehaviour
     {
         GetComponent<MeshRenderer>().material.color = color;
         transform.localScale *= scaleMultiplier;
-        print("Hit " + healthPoints);
+        print("Damage taken Enemy HP = " + healthPoints--);
     }
-
-    // protected void StartCooldown(string cooldownType) => Invoke(nameof(EndCooldown), cooldownType == nameof(isCollisionCooldown) ? collisionCooldown : cooldownTimer);
-    // protected void EndCooldown() => isCollisionCooldown = false;
 
     protected IEnumerator StartCooldown(float cooldownTime, string cooldownType)
     {
@@ -55,9 +52,7 @@ public class Enemy : MonoBehaviour
     protected void EndCooldown(string cooldownType)
     {
         if (cooldownType == nameof(isCollisionCooldown))
-        {
             isCollisionCooldown = false;
-        }
     }
 
     protected void ApplyForce()
@@ -68,11 +63,7 @@ public class Enemy : MonoBehaviour
         isKnockedBack = true;
     }
 
-    protected void DestroyObject()
-    {
-        Destroy(gameObject);
-        // Destroying a Component attached to a GameObject;
-    }
+    protected void DestroyObject() => Destroy(gameObject);
 
     protected void KnockBack()
     {
@@ -92,6 +83,6 @@ public class Enemy : MonoBehaviour
             transform.position = new Vector3(transform.position.x, maxKnockbackHeight, transform.position.z);
     }
 
-    protected virtual void OnTriggerStay(Collider other) { }
-    protected virtual void OnTriggerExit(Collider other) { }
+    protected virtual void OnTriggerStay(Collider other){}
+    protected virtual void OnTriggerExit(Collider other){}
 }
