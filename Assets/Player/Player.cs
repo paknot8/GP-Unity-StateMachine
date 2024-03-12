@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     #region Basic Variables
         [HideInInspector] public bool isSprinting = false;
         public float jumpForce = 7;
+        public float forwardJumpForce = 5f;
         public float currentSpeed;
         public float walkSpeed = 5;
         public float runSpeed = 10;

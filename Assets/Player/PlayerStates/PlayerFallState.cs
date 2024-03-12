@@ -13,6 +13,7 @@ public class PlayerFallState : PlayerBaseState
     public override void UpdateState(Player player)
     {
         Debug.Log("Update currently falling state.");
+
         if(player.IsGrounded()){
             player.ChangeState(player.idleState);
         }
