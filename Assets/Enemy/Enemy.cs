@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -30,7 +31,8 @@ public class Enemy : MonoBehaviour
                 case 1: UpdateHit(new Color32(70, 0, 0, 200), 0.6f); break;
                 case 0: UpdateHit(new Color32(10, 0, 0, 200), 0.2f); Invoke(nameof(DestroyObject), cooldownTimer); break;
             }
-            StartCooldown(nameof(isCollisionCooldown));
+            //StartCooldown(nameof(isCollisionCooldown));
+            StartCoroutine(StartCooldown(collisionCooldown, nameof(isCollisionCooldown)));
         }
     }
 
@@ -41,18 +43,36 @@ public class Enemy : MonoBehaviour
         print("Hit " + healthPoints);
     }
 
-    protected void StartCooldown(string cooldownType) => Invoke(nameof(EndCooldown), cooldownType == nameof(isCollisionCooldown) ? collisionCooldown : cooldownTimer);
+    // protected void StartCooldown(string cooldownType) => Invoke(nameof(EndCooldown), cooldownType == nameof(isCollisionCooldown) ? collisionCooldown : cooldownTimer);
+    // protected void EndCooldown() => isCollisionCooldown = false;
 
-    protected void EndCooldown() => isCollisionCooldown = false;
+    protected IEnumerator StartCooldown(float cooldownTime, string cooldownType)
+    {
+        yield return new WaitForSeconds(cooldownTime);
+        EndCooldown(cooldownType);
+    }
+
+    protected void EndCooldown(string cooldownType)
+    {
+        if (cooldownType == nameof(isCollisionCooldown))
+        {
+            isCollisionCooldown = false;
+        }
+    }
 
     protected void ApplyForce()
     {
         Vector3 pushDirection = transform.forward;
-        GetComponent<Rigidbody>().AddForce(pushDirection * pushForce, ForceMode.VelocityChange);
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.AddForce(pushDirection * pushForce, ForceMode.VelocityChange);
         isKnockedBack = true;
     }
 
-    protected void DestroyObject() => Destroy(gameObject);
+    protected void DestroyObject()
+    {
+        Destroy(gameObject);
+        // Destroying a Component attached to a GameObject;
+    }
 
     protected void KnockBack()
     {
