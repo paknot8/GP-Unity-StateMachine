@@ -4,7 +4,8 @@ public class PlayerIdleState : PlayerBaseState
 {
     public override void EnterState(Player player)
     {
-        player.GetComponent<MeshRenderer>().material.color = new Color32(45, 215, 250, 255); // Light blue
+        // Light blue
+        player.GetComponent<MeshRenderer>().material.color = new Color32(45, 215, 250, 255);
     }
 
     public override void ExitState(Player player){}

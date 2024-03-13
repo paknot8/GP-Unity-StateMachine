@@ -4,7 +4,8 @@ public class PlayerWalkState : PlayerBaseState
 {
     public override void EnterState(Player player)
     {
-        player.GetComponent<MeshRenderer>().material.color = new Color32(45, 115, 250, 255); // Dark Blue
+        // Dark Blue
+        player.GetComponent<MeshRenderer>().material.color = new Color32(45, 115, 250, 255);
     }
 
     public override void ExitState(Player player){}

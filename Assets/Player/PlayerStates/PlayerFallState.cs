@@ -4,8 +4,8 @@ public class PlayerFallState : PlayerBaseState
 {
     public override void EnterState(Player player)
     {
-        Debug.Log("Enter Falling state");
-        player.GetComponent<MeshRenderer>().material.color = new Color32(250, 99, 45, 255); // Orange
+        // Orange
+        player.GetComponent<MeshRenderer>().material.color = new Color32(250, 99, 45, 255);
     }
 
     public override void ExitState(Player player) => Debug.Log("Exit Falling state.");
