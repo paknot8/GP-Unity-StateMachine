@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
         public float groundCheckRange = 0.5f;
     #endregion
 
-    #region Object References to instance of Player States 
+    #region Object References to Player States 
         public PlayerBaseState playerState;
         public PlayerIdleState idleState = new();
         public PlayerWalkState walkState = new();
