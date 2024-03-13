@@ -86,10 +86,12 @@ public class Player : MonoBehaviour
         // Create a 3D vector using the horizontal and vertical input from the movement
         private void CalculateMoveDirection() => direction = new Vector3(movement.x, 0, movement.y);
 
+        // Calculate the movement direction in world space
+        // Move the player in the calculated direction with the current speed
         private void MovementOfPlayer()
         {
-            moveToDirection = cameraForward * direction.z + cameraRight * direction.x; // Calculate the movement direction in world space
-            transform.Translate(currentSpeed * Time.deltaTime * moveToDirection, Space.World); // Move the player in the calculated direction with the current speed
+            moveToDirection = cameraForward * direction.z + cameraRight * direction.x; 
+            transform.Translate(currentSpeed * Time.deltaTime * moveToDirection, Space.World);
         }
 
         private void RotatePlayer()
