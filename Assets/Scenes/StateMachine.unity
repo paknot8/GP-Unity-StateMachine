@@ -4826,12 +4826,15 @@ MonoBehaviour:
   capsuleCollider: {fileID: 0}
   jumpSound: {fileID: 0}
   direction: {x: 0, y: 0, z: 0}
+  moveToDirection: {x: 0, y: 0, z: 0}
+  lookToDirection: {x: 0, y: 0, z: 0}
   cameraForward: {x: 0, y: 0, z: 0}
   cameraRight: {x: 0, y: 0, z: 0}
   movement: {x: 0, y: 0}
+  rotation: {x: 0, y: 0, z: 0, w: 0}
   isSprinting: 0
   jumpForce: 7
-  forwardJumpForce: 2
+  forwardJumpForce: 4
   currentSpeed: 0
   walkSpeed: 4
   runSpeed: 10
@@ -6982,7 +6985,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4622730170893605044, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
       propertyPath: forwardJumpForce
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4622730170893605044, guid: 711d70d7add8b5445893b1597c80c1eb, type: 3}
       propertyPath: groundCheckRange
