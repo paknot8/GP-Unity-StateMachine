@@ -2,7 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// This is the main class with a partial class with better readablity there is a PlayerVariables.cs to store all the variables.
+// This is the main class with a partial class with better readablity 
+// there is a PlayerVariables.cs to store all the variables.
 public partial class Player : MonoBehaviour
 {
     // On Game Start
@@ -97,26 +98,9 @@ public partial class Player : MonoBehaviour
 
         void OnSprint(InputValue value) => isSprinting = value.isPressed;
 
-        // void OnJump(InputValue value){
-        //     if(value.isPressed && isSprinting){
-        //         ChangeState(jumpState);
-        //     }
-        // }
-
-        void OnJump(InputValue value)
-        {
-            if (!isJumpCooldown && value.isPressed && isSprinting)
-            {
+        void OnJump(InputValue value){
+            if(value.isPressed && isSprinting)
                 ChangeState(jumpState);
-                StartCoroutine(JumpCooldownTimer());
-            }
-        }
-
-        IEnumerator JumpCooldownTimer()
-        {
-            isJumpCooldown = true;
-            yield return new WaitForSeconds(jumpCooldown);
-            isJumpCooldown = false;
         }
     #endregion
 }
