@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -96,10 +97,26 @@ public partial class Player : MonoBehaviour
 
         void OnSprint(InputValue value) => isSprinting = value.isPressed;
 
-        void OnJump(InputValue value){
-            if(value.isPressed && isSprinting){
+        // void OnJump(InputValue value){
+        //     if(value.isPressed && isSprinting){
+        //         ChangeState(jumpState);
+        //     }
+        // }
+
+        void OnJump(InputValue value)
+        {
+            if (!isJumpCooldown && value.isPressed && isSprinting)
+            {
                 ChangeState(jumpState);
+                StartCoroutine(JumpCooldownTimer());
             }
+        }
+
+        IEnumerator JumpCooldownTimer()
+        {
+            isJumpCooldown = true;
+            yield return new WaitForSeconds(jumpCooldown);
+            isJumpCooldown = false;
         }
     #endregion
 }

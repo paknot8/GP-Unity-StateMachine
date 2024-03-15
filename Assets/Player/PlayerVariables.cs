@@ -35,6 +35,9 @@ public partial class Player
         public float groundCheckRange = 0.5f;
     #endregion
 
+    public float jumpCooldown = 1.0f;
+    private bool isJumpCooldown = false;
+
     #region Object References to Player States 
         public PlayerBaseState playerState;
         public PlayerIdleState idleState = new();
