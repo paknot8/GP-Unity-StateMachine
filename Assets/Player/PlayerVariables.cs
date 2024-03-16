@@ -27,6 +27,7 @@ public partial class Player
         [HideInInspector] public bool isSprinting = false;
         public float jumpForce = 7f;
         public float forwardJumpForce = 4f;
+        public float jumpCooldown = 1.0f;
         public float currentSpeed = 0f;
         public float walkSpeed = 4f;
         public float runSpeed = 10f;
@@ -34,9 +35,6 @@ public partial class Player
         public float rotationSpeed = 750f;
         public float groundCheckRange = 0.5f;
     #endregion
-
-    public float jumpCooldown = 1.0f;
-    private bool isJumpCooldown = false;
 
     #region Object References to Player States 
         public PlayerBaseState playerState;

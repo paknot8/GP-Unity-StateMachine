@@ -74,14 +74,12 @@ public partial class Player : MonoBehaviour
     #endregion
 
     #region General Methods
-        // Checks for if player is grounded
         public bool IsGrounded()
         {
-            float sphereRadius = capsuleCollider.radius - 0.01f; // Adjust the offset as needed
-            float sphereCastDistance = capsuleCollider.bounds.extents.y + 0.2f; // Adjust the distance as needed
-
-            // Cast sphere downwards from the center of the capsule collider (check collision on ground)
-            return Physics.SphereCast(transform.position + capsuleCollider.center, sphereRadius, Vector3.down, out _, sphereCastDistance);
+            return Physics.Raycast(transform.position + capsuleCollider.center + new Vector3(0.4f, 0.0f, -0.4f), Vector3.down, capsuleCollider.bounds.extents.y + 0.1f) ||
+                Physics.Raycast(transform.position + capsuleCollider.center + new Vector3(-0.4f, 0.0f, 0.4f), Vector3.down, capsuleCollider.bounds.extents.y + 0.1f) ||
+                Physics.Raycast(transform.position + capsuleCollider.center + new Vector3(-0.4f, 0.0f, -0.4f), Vector3.down, capsuleCollider.bounds.extents.y + 0.1f) ||
+                Physics.Raycast(transform.position + capsuleCollider.center + new Vector3(0.4f, 0.0f, 0.4f), Vector3.down, capsuleCollider.bounds.extents.y + 0.1f);
         }
         
         // Functions as State Changer
