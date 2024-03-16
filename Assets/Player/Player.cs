@@ -2,8 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// This is the main class with a partial class with better readablity 
-// there is a PlayerVariables.cs to store all the variables.
+// This is the main class with a partial class 
+// with better readablity there is a PlayerVariables.cs to store all the variables.
 public partial class Player : MonoBehaviour
 {
     // On Game Start
@@ -76,11 +76,24 @@ public partial class Player : MonoBehaviour
     #region General Methods
         public bool IsGrounded()
         {
-            return Physics.Raycast(transform.position + capsuleCollider.center + new Vector3(0.4f, 0.0f, -0.4f), Vector3.down, capsuleCollider.bounds.extents.y + 0.1f) ||
-                Physics.Raycast(transform.position + capsuleCollider.center + new Vector3(-0.4f, 0.0f, 0.4f), Vector3.down, capsuleCollider.bounds.extents.y + 0.1f) ||
-                Physics.Raycast(transform.position + capsuleCollider.center + new Vector3(-0.4f, 0.0f, -0.4f), Vector3.down, capsuleCollider.bounds.extents.y + 0.1f) ||
-                Physics.Raycast(transform.position + capsuleCollider.center + new Vector3(0.4f, 0.0f, 0.4f), Vector3.down, capsuleCollider.bounds.extents.y + 0.1f);
+            // Offset the origin of the raycasts from the center of the capsule collider to the corners
+            // Detect ground even when the capsule is on an uneven surface
+            // The offsets are based on the size of the capsule collider
+            Vector3 cornerOffset1 = new(0.4f, 0.0f, -0.4f);
+            Vector3 cornerOffset2 = new(-0.4f, 0.0f, 0.4f);
+            Vector3 cornerOffset3 = new(-0.4f, 0.0f, -0.4f);
+            Vector3 cornerOffset4 = new(0.4f, 0.0f, 0.4f);
+
+            // 4 raycasts from the corners of the capsule collider downwards to check for ground
+            // If any of the raycasts hit an object within the specified distance, return true
+            // The distance value is based on the size of the capsule collider and ground detection.
+            bool grounded = Physics.Raycast(transform.position + capsuleCollider.center + cornerOffset1, Vector3.down, capsuleCollider.bounds.extents.y + 0.1f) ||
+                            Physics.Raycast(transform.position + capsuleCollider.center + cornerOffset2, Vector3.down, capsuleCollider.bounds.extents.y + 0.1f) ||
+                            Physics.Raycast(transform.position + capsuleCollider.center + cornerOffset3, Vector3.down, capsuleCollider.bounds.extents.y + 0.1f) ||
+                            Physics.Raycast(transform.position + capsuleCollider.center + cornerOffset4, Vector3.down, capsuleCollider.bounds.extents.y + 0.1f);
+            return grounded;
         }
+
         
         // Functions as State Changer
         public void ChangeState(PlayerBaseState state)
@@ -94,7 +107,7 @@ public partial class Player : MonoBehaviour
     #region New Input System Controls
         void OnMove(InputValue value) => movement = value.Get<Vector2>();
 
-        void OnSprint(InputValue value) => isSprinting = value.isPressed;
+        void OnSprint(InputValue value) => isSprinting = value.isPressed; // when pressed sprinting = true
 
         void OnJump(InputValue value){
             if(value.isPressed && isSprinting)

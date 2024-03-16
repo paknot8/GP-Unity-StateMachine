@@ -33,7 +33,7 @@ public partial class Player
         public float runSpeed = 10f;
         public float speedChangeRate = 5f;
         public float rotationSpeed = 750f;
-        public float groundCheckRange = 0.5f;
+        [HideInInspector] public float groundCheckRange = 0.5f;
     #endregion
 
     #region Object References to Player States 
