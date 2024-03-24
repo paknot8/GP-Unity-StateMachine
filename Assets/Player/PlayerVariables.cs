@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 // This is a partial class with only variables in Player to seperate the variables and methods for better readablity
 public partial class Player

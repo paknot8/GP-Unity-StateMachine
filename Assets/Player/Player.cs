@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,34 +5,37 @@ using UnityEngine.InputSystem;
 // with better readablity there is a PlayerVariables.cs to store all the variables.
 public partial class Player : MonoBehaviour
 {
-    // On Game Start
-    void Start()
-    {
+    // Loading and Initializing before Starting the game
+    void Awake(){
         rigidBody = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
         jumpSound = GetComponent<AudioSource>();
-        // On Start Game Default State
-        playerState = idleState;
-        playerState.EnterState(this);
-        jumpSound.volume = 0.1f;
     }
 
-    // Checking what state it is the whole time.
-    void Update() => playerState.UpdateState(this); 
+    void Start() => OnStartGoToState(); // Starting State
 
-    #region Movement and Direction for player to Face Forward
-        public void PlayerMovement()
-        {
-            // If there is no movement input, transition to the idle state
-            if (movement == Vector2.zero)
-                ChangeState(idleState);
+    void Update(){
+        PlayerMovement();
+        playerState.UpdateState(this); // Refreshing the Update State everytime
+    }
 
-            currentSpeed = isSprinting ? runSpeed : walkSpeed;
-            FaceDirection();
+    // Functions as State Changer
+    public void ChangeState(PlayerBaseState state){
+        if(playerState != null){
+            playerState.ExitState(this);
+            playerState = state;
+            playerState.EnterState(this);
         }
+    }
 
-        // Using Extra Methode so it is better readable
-        public void FaceDirection()
+    private void OnStartGoToState(){
+        if(IsGrounded()) playerState = idleState;
+        else playerState = fallState;
+        playerState.EnterState(this);
+    }
+
+    #region Player Movement & Direction
+        public void PlayerMovement()
         {
             SetCameraVectorsAndNormalize();
             CalculateMoveDirection();
@@ -42,8 +44,7 @@ public partial class Player : MonoBehaviour
         }
 
         // Get normalized forward and right vectors of the camera
-        private void SetCameraVectorsAndNormalize() 
-        {
+        private void SetCameraVectorsAndNormalize() {
             cameraForward = Camera.main.transform.forward.normalized;
             cameraRight = Camera.main.transform.right.normalized;
         }
@@ -55,6 +56,7 @@ public partial class Player : MonoBehaviour
         // Move the player in the calculated direction with the current speed
         private void MovementOfPlayer()
         {
+            currentSpeed = isSprinting ? runSpeed : walkSpeed;
             moveToDirection = cameraForward * direction.z + cameraRight * direction.x; 
             transform.Translate(currentSpeed * Time.deltaTime * moveToDirection, Space.World);
         }
@@ -74,8 +76,7 @@ public partial class Player : MonoBehaviour
     #endregion
 
     #region General Methods
-        public bool IsGrounded()
-        {
+        public bool IsGrounded(){
             // Offset the origin of the raycasts from the center of the capsule collider to the corners
             // Detect ground even when the capsule is on an uneven surface
             // The offsets are based on the size of the capsule collider
@@ -93,22 +94,11 @@ public partial class Player : MonoBehaviour
                             Physics.Raycast(transform.position + capsuleCollider.center + cornerOffset4, Vector3.down, capsuleCollider.bounds.extents.y + 0.1f);
             return grounded;
         }
-
-        
-        // Functions as State Changer
-        public void ChangeState(PlayerBaseState state)
-        {
-            playerState.ExitState(this);
-            playerState = state;
-            playerState.EnterState(this);
-        }
     #endregion
 
     #region New Input System Controls
         void OnMove(InputValue value) => movement = value.Get<Vector2>();
-
-        void OnSprint(InputValue value) => isSprinting = value.isPressed; // when pressed sprinting = true
-
+        void OnSprint(InputValue value) => isSprinting = value.isPressed;
         void OnJump(InputValue value){
             if(value.isPressed && isSprinting)
                 ChangeState(jumpState);
